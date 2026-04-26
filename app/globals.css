@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.08), transparent 35%),
+    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.08), transparent 32%),
+    radial-gradient(circle at 92% 30%, rgba(249, 115, 22, 0.1), transparent 24%),
+    radial-gradient(circle at 12% 72%, rgba(239, 68, 68, 0.08), transparent 28%),
+    linear-gradient(to bottom, #ffffff, #f8fbff 30%, #ffffff 70%);
+}
+
+.container-max {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+.glass-card {
+  @apply rounded-2xl border border-slate-200/80 bg-white/95 shadow-soft transition-all duration-300;
+}
+
+.accent-warm {
+  @apply bg-gradient-to-r from-orange-50 via-rose-50 to-blue-50 text-slate-700;
+}
+
+.section-title {
+  @apply text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl;
+}
+
+.section-lead {
+  @apply mt-3 max-w-2xl text-base leading-7 text-slate-600;
+}
