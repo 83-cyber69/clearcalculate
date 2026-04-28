@@ -123,19 +123,21 @@ export function UnitInput({
   );
 
   return (
-    <div className={cn("space-y-1", className)}>
+    <div className={cn("space-y-2", className)}>
       <div className="flex items-center justify-between gap-3">
         <label htmlFor={id} className="text-sm font-medium text-slate-700">
           {label}{" "}
           <span className="text-slate-500">({unitSystem === "metric" ? metricLabel : imperialLabel})</span>
         </label>
-        <div className="inline-flex overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <div className="inline-flex overflow-hidden rounded-xl border border-slate-200 bg-white">
           <button
             type="button"
             onClick={() => setSystem("metric")}
             className={cn(
-              "px-2 py-1 text-xs font-semibold",
-              unitSystem === "metric" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-50"
+              "px-3 py-1.5 text-xs font-semibold",
+              unitSystem === "metric"
+                ? "bg-slate-900 text-white"
+                : "text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200"
             )}
           >
             Metric
@@ -144,8 +146,10 @@ export function UnitInput({
             type="button"
             onClick={() => setSystem("imperial")}
             className={cn(
-              "px-2 py-1 text-xs font-semibold",
-              unitSystem === "imperial" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-50"
+              "px-3 py-1.5 text-xs font-semibold",
+              unitSystem === "imperial"
+                ? "bg-slate-900 text-white"
+                : "text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200"
             )}
           >
             Imperial

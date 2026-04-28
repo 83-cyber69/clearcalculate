@@ -7,6 +7,7 @@ import { RelatedCalculators } from "@/components/calculators/related-calculators
 import { SeoIntelligence } from "@/components/seo/seo-intelligence";
 import { GpaCalculator } from "@/components/gpa/gpa-calculator";
 import { ShareButtons } from "@/components/shared/share-buttons";
+import { CalculatorSidebar } from "@/components/shared/calculator-sidebar";
 import { createBreadcrumbJsonLd, createFaqJsonLd, generateSEOData } from "@/lib/seo";
 
 const seoData = generateSEOData("gpa-calculator");
@@ -60,9 +61,26 @@ export default function GpaPage() {
           shareText="Try this GPA calculator:"
         />
       }
+      sidebar={
+        <CalculatorSidebar
+          trustBadges={[
+            { label: "Fast" },
+            { label: "Free" },
+            { label: "Accurate" },
+            { label: "Mobile Friendly" }
+          ]}
+          quickLinks={[
+            { label: "Calculator", href: "#calculator" },
+            { label: "How it works", href: "#how-it-works" },
+            { label: "Formula", href: "#formula" },
+            { label: "FAQ", href: "#faq" }
+          ]}
+          tip="Weighted GPA includes honors/AP boosts. If your school uses a different boost (ex: +1.0), switch to unweighted or adjust your interpretation accordingly."
+        />
+      }
       seoContent={
         <>
-          <article className="glass-card p-6 sm:p-8">
+          <article id="how-it-works" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">How this calculator works</h2>
             <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
               GPA is a weighted average. Courses with more credits count more.
@@ -74,7 +92,7 @@ export default function GpaPage() {
             </ol>
           </article>
 
-          <article className="glass-card p-6 sm:p-8">
+          <article id="formula" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">Formula</h2>
             <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
               <p>
@@ -117,7 +135,7 @@ export default function GpaPage() {
             </div>
           </article>
 
-          <article>
+          <article id="faq" className="scroll-mt-24">
             <h2 className="mb-5 section-title">FAQ</h2>
             <FAQAccordion items={seoData.faqItems} />
           </article>

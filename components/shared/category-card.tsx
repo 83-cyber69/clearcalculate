@@ -12,7 +12,7 @@ type CategoryCardProps = {
 
 export function CategoryCard({ title, description, icon: Icon, slug }: CategoryCardProps) {
   const cardContent = (
-    <Card className="group h-full cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-[0_16px_38px_rgba(15,23,42,0.15)]">
+    <Card className="group h-full cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-[0_16px_38px_rgba(15,23,42,0.15)] active:scale-[0.99]">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
@@ -34,7 +34,7 @@ export function CategoryCard({ title, description, icon: Icon, slug }: CategoryC
 
   if (slug) {
     return (
-      <Link href={`/${slug}`} className="block h-full">
+      <Link href={`/${slug}`} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2">
         {cardContent}
       </Link>
     );

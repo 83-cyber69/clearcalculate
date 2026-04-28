@@ -32,7 +32,7 @@ export function Header() {
           <div className="relative">
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-blue-700"
+              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-orange-50 hover:text-blue-700"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               Calculators
@@ -40,7 +40,7 @@ export function Header() {
             </button>
             <div
               className={cn(
-                "absolute left-0 top-10 w-[400px] rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_20px_45px_rgba(15,23,42,0.12)] transition-all duration-200",
+                "absolute left-0 top-11 w-[420px] rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_20px_45px_rgba(15,23,42,0.12)] transition-all duration-200 ease-out",
                 dropdownOpen
                   ? "visible translate-y-0 opacity-100"
                   : "invisible -translate-y-2 opacity-0 pointer-events-none"
@@ -96,6 +96,14 @@ export function Header() {
                       </Link>
                     );
                   })}
+                  <Link
+                    href="/calculators"
+                    className="flex items-center justify-between rounded-xl px-2 py-2 transition-colors hover:bg-orange-50"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <span className="text-sm font-medium text-slate-900">All Calculators</span>
+                    <ChevronRight className="h-4 w-4 text-slate-400" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -118,11 +126,75 @@ export function Header() {
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
+
+      <div className="border-t border-slate-200/70 bg-white/70 md:hidden">
+        <div className="container-max overflow-x-auto py-2">
+          <div className="flex w-max items-center gap-2">
+            <Link
+              href="/education"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              onClick={() => setMobileOpen(false)}
+            >
+              Education
+            </Link>
+            <Link
+              href="/finance"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              onClick={() => setMobileOpen(false)}
+            >
+              Finance
+            </Link>
+            <Link
+              href="/health"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              onClick={() => setMobileOpen(false)}
+            >
+              Health
+            </Link>
+            <Link
+              href="/calculators"
+              className="whitespace-nowrap rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700 active:scale-[0.98]"
+              onClick={() => setMobileOpen(false)}
+            >
+              All
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {mobileOpen ? (
         <div className="container-max border-t border-slate-200 py-4 md:hidden">
           <div className="space-y-2 text-sm text-slate-700">
             <Link href="/" className="block rounded-lg px-3 py-2 hover:bg-orange-50" onClick={() => setMobileOpen(false)}>
               Home
+            </Link>
+            <Link
+              href="/calculators"
+              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              onClick={() => setMobileOpen(false)}
+            >
+              All Calculators
+            </Link>
+            <Link
+              href="/education"
+              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              onClick={() => setMobileOpen(false)}
+            >
+              Education
+            </Link>
+            <Link
+              href="/finance"
+              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              onClick={() => setMobileOpen(false)}
+            >
+              Finance
+            </Link>
+            <Link
+              href="/health"
+              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              onClick={() => setMobileOpen(false)}
+            >
+              Health
             </Link>
             <Link
               href="/#about"
@@ -131,24 +203,6 @@ export function Header() {
             >
               About
             </Link>
-            <p className="px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Calculators</p>
-            {calculatorItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-start gap-3 rounded-lg px-3 py-2 hover:bg-orange-50"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Icon className="mt-0.5 h-4 w-4 text-orange-600" />
-                  <span>
-                    <span className="block font-medium text-slate-900">{item.title}</span>
-                    <span className="block text-xs text-slate-600">{item.description}</span>
-                  </span>
-                </Link>
-              );
-            })}
           </div>
         </div>
       ) : null}

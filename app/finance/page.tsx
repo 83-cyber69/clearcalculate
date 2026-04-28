@@ -8,6 +8,7 @@ import { SmartSearch } from "@/components/search/smart-search";
 import { getCalculatorsByCategory, categoryRegistry } from "@/lib/calculators";
 import { siteConfig } from "@/lib/utils";
 import { createFaqJsonLd } from "@/lib/seo";
+import { AdSlot } from "@/components/ads/AdSlot";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 
@@ -99,7 +100,18 @@ export default function FinancePage() {
         
         {financeCalculators.length > 0 ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {financeCalculators.map((calculator) => (
+            {financeCalculators.slice(0, 3).map((calculator) => (
+              <CalculatorCard
+                key={calculator.id}
+                title={calculator.name}
+                description={calculator.description}
+                href={`/${calculator.slug}`}
+                icon={calculator.icon}
+                ctaLabel="Calculate"
+              />
+            ))}
+            <AdSlot variant="in-content" />
+            {financeCalculators.slice(3).map((calculator) => (
               <CalculatorCard
                 key={calculator.id}
                 title={calculator.name}

@@ -6,6 +6,7 @@ import { HeroGpaFocus } from "@/components/home/hero-gpa-focus";
 import { CategoryCard } from "@/components/shared/category-card";
 import { CalculatorCard } from "@/components/shared/calculator-card";
 import { FAQAccordion } from "@/components/shared/faq-accordion";
+import { AdSlot } from "@/components/ads/AdSlot";
 import { calculatorItems, categoryItems, categoryRegistry } from "@/lib/calculators";
 import { siteConfig } from "@/lib/utils";
 
@@ -80,9 +81,7 @@ export default function HomePage() {
       </Script>
 
       <section className="container-max hero-first-screen py-16 sm:py-20 md:py-24">
-        <div className="w-full space-y-12 sm:space-y-16 md:space-y-20">
-          <HeroGpaFocus />
-
+        <div className="w-full space-y-10 sm:space-y-14 md:space-y-16">
           <div className="mx-auto max-w-4xl text-center space-y-8">
             <div className="mb-4">
               <p className="inline-flex rounded-full border border-orange-200 bg-gradient-to-r from-orange-50 via-rose-50 to-blue-50 px-3 py-1 text-xs font-medium text-orange-600">
@@ -106,10 +105,14 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl">
             <SmartSearch />
           </div>
+
+          <div className="mx-auto w-full max-w-4xl pt-2">
+            <AdSlot variant="top-banner" />
+          </div>
         </div>
       </section>
 
-      <section id="categories" className="container-max py-16">
+      <section id="categories" className="container-max py-14 sm:py-16">
         <div className="mb-10 text-center">
           <h2 className="section-title">Browse by Category</h2>
         </div>
@@ -129,7 +132,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="featured" className="container-max py-16">
+      <section id="featured-calculator" className="container-max py-14 sm:py-16">
+        <HeroGpaFocus />
+      </section>
+
+      <section id="featured" className="container-max py-14 sm:py-16">
         <div className="mb-10 text-center">
           <h2 className="section-title">Featured Calculators</h2>
         </div>
@@ -147,7 +154,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="container-max py-16">
+      <section className="container-max py-8 sm:py-10">
+        <AdSlot variant="in-content" />
+      </section>
+
+      <section id="about" className="container-max py-14 sm:py-16">
         <div className="glass-card accent-warm p-8 sm:p-10">
           <h2 className="section-title">
             About <span className="mr-0.5">Clear</span>
@@ -160,7 +171,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="faq" className="container-max py-16">
+      <section id="faq" className="container-max py-14 sm:py-16">
         <h2 className="mb-10 section-title">Frequently Asked Questions</h2>
         <FAQAccordion items={faqItems} />
       </section>

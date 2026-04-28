@@ -6,6 +6,7 @@ import { CalculatorPageShell } from "@/components/shared/calculator-page-shell";
 import { FAQAccordion } from "@/components/shared/faq-accordion";
 import { RelatedCalculators } from "@/components/calculators/related-calculators";
 import { ShareButtons } from "@/components/shared/share-buttons";
+import { CalculatorSidebar } from "@/components/shared/calculator-sidebar";
 import { createBreadcrumbJsonLd, createCalculatorMetadata, createFaqJsonLd, createWebApplicationJsonLd } from "@/lib/seo";
 
 const pageDescription =
@@ -108,9 +109,26 @@ export default function TdeePage() {
           shareText="Try this TDEE calculator:"
         />
       }
+      sidebar={
+        <CalculatorSidebar
+          trustBadges={[
+            { label: "Fast" },
+            { label: "Free" },
+            { label: "Accurate" },
+            { label: "Mobile Friendly" }
+          ]}
+          quickLinks={[
+            { label: "Calculator", href: "#calculator" },
+            { label: "How it works", href: "#how-it-works" },
+            { label: "Formula", href: "#formula" },
+            { label: "FAQ", href: "#faq" }
+          ]}
+          tip="Use your current activity level (not your goal activity). Track weight for 2-3 weeks and adjust calories if results differ."
+        />
+      }
       seoContent={
         <>
-          <article className="glass-card p-6 sm:p-8">
+          <article id="how-it-works" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">How this calculator works</h2>
             <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
               This calculator estimates your BMR (resting calories) and multiplies it by an activity level to estimate TDEE.
@@ -122,7 +140,7 @@ export default function TdeePage() {
             </ol>
           </article>
 
-          <article className="glass-card p-6 sm:p-8">
+          <article id="formula" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">Formula</h2>
             <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
               <p>
@@ -171,7 +189,7 @@ export default function TdeePage() {
             </p>
           </article>
 
-          <article>
+          <article id="faq" className="scroll-mt-24">
             <h2 className="mb-5 section-title">FAQ</h2>
             <FAQAccordion items={faqItems} />
           </article>

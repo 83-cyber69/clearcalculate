@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/utils";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,7 +18,11 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   icons: {
     icon: [
+      { url: "/favicon.ico" },
       { url: "/icon.png", type: "image/png" }
+    ],
+    apple: [
+      { url: "/apple-icon.png", type: "image/png" }
     ]
   },
   alternates: {
@@ -34,9 +40,7 @@ export const metadata: Metadata = {
     title: "ClearCalculate | Free Online Calculators",
     description: siteConfig.description
   },
-  verification: {
-    google: "GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE"
-  }
+  verification: googleSiteVerification ? { google: googleSiteVerification } : undefined
 };
 
 export default function RootLayout({
@@ -47,19 +51,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Google Analytics placeholder. Replace with your GA Measurement ID. */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
+        {gaMeasurementId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaMeasurementId}', { anonymize_ip: true });
+              `}
+            </Script>
+          </>
+        ) : null}
         <Header />
         <main>{children}</main>
         <Footer />

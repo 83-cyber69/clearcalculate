@@ -35,7 +35,7 @@ export function InputField({
   const inputId = id ?? fallbackId;
 
   return (
-    <div className={cn("space-y-1", className)}>
+    <div className={cn("space-y-2", className)}>
       <label htmlFor={inputId} className="text-sm font-medium text-slate-700">
         {label}
       </label>
@@ -52,7 +52,7 @@ export function InputField({
           className={unitRight ? "pr-14" : undefined}
         />
         {unitRight ? (
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-slate-500">
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-slate-500">
             {unitRight}
           </span>
         ) : null}

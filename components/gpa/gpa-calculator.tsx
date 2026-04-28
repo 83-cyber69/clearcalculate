@@ -143,38 +143,42 @@ export function GpaCalculator() {
             {classes.map((course, index) => (
               <div
                 key={course.id}
-                className="grid gap-3 rounded-xl border border-slate-200 bg-white p-3.5 shadow-sm md:grid-cols-[1.5fr_0.8fr_0.8fr_auto_auto]"
+                className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-[minmax(240px,1fr)_170px_140px_auto] md:items-start"
               >
                 <Input
                   placeholder="Class name"
                   value={course.name}
                   onChange={(e) => updateClass(course.id, { name: e.target.value })}
                 />
-                <Select
-                  options={gradeOptions}
-                  value={course.grade}
-                  onChange={(e) => updateClass(course.id, { grade: e.target.value })}
-                />
+                <div className="space-y-2">
+                  <Select
+                    options={gradeOptions}
+                    value={course.grade}
+                    onChange={(e) => updateClass(course.id, { grade: e.target.value })}
+                  />
+                  <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                    <Switch
+                      checked={course.honors}
+                      onCheckedChange={(checked) => updateClass(course.id, { honors: checked })}
+                    />
+                    Honors/AP
+                  </label>
+                </div>
                 <Input
                   type="number"
                   min={0}
                   step={0.5}
                   value={course.credits}
                   onChange={(e) => updateClass(course.id, { credits: Number(e.target.value) })}
+                  placeholder="Credits"
                 />
-                <label className="flex items-center gap-2 text-sm text-slate-700">
-                  <Switch
-                    checked={course.honors}
-                    onCheckedChange={(checked) => updateClass(course.id, { honors: checked })}
-                  />
-                  Honors/AP
-                </label>
                 <Button
                   variant="ghost"
                   onClick={() =>
                     setClasses((prev) => (prev.length > 1 ? prev.filter((item) => item.id !== course.id) : prev))
                   }
                   disabled={index === 0 && classes.length === 1}
+                  className="h-14 self-start px-4 text-slate-700"
                 >
                   Remove
                 </Button>

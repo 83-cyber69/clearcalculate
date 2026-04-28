@@ -30,8 +30,7 @@ export function RelatedCalculators({ slug }: RelatedCalculatorsProps) {
   const categoryHref = current ? `/${current.category.toLowerCase()}` : "/calculators";
 
   return (
-    <article>
-      <h2 className="mb-5 section-title">Related Calculators</h2>
+    <div>
       <div className="grid gap-5 md:grid-cols-3">
         {related.map((calc) => (
           <CalculatorCard
@@ -69,6 +68,6 @@ export function RelatedCalculators({ slug }: RelatedCalculatorsProps) {
           .
         </p>
       </div>
-    </article>
+    </div>
   );
 }

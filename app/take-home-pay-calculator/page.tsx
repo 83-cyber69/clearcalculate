@@ -6,6 +6,7 @@ import { FAQAccordion } from "@/components/shared/faq-accordion";
 import { RelatedCalculators } from "@/components/calculators/related-calculators";
 import { TakeHomePayCalculator } from "@/components/finance/take-home-pay-calculator";
 import { ShareButtons } from "@/components/shared/share-buttons";
+import { CalculatorSidebar } from "@/components/shared/calculator-sidebar";
 import { createBreadcrumbJsonLd, createCalculatorMetadata, createFaqJsonLd, createWebApplicationJsonLd } from "@/lib/seo";
 
 const pageDescription =
@@ -108,9 +109,26 @@ export default function TakeHomePayPage() {
           shareText="Try this take-home pay calculator:"
         />
       }
+      sidebar={
+        <CalculatorSidebar
+          trustBadges={[
+            { label: "Fast" },
+            { label: "Free" },
+            { label: "Accurate" },
+            { label: "Mobile Friendly" }
+          ]}
+          quickLinks={[
+            { label: "Calculator", href: "#calculator" },
+            { label: "How it works", href: "#how-it-works" },
+            { label: "Formula", href: "#formula" },
+            { label: "FAQ", href: "#faq" }
+          ]}
+          tip="If your estimate feels off, double-check filing status, state, and retirement %. Real paychecks can vary by benefits and local taxes."
+        />
+      }
       seoContent={
         <>
-          <article className="glass-card p-6 sm:p-8">
+          <article id="how-it-works" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">How this calculator works</h2>
             <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
               Take-home pay is your net income after payroll taxes and deductions. This calculator estimates yearly, monthly, and per-paycheck take-home.
@@ -122,7 +140,7 @@ export default function TakeHomePayPage() {
             </ol>
           </article>
 
-          <article className="glass-card p-6 sm:p-8">
+          <article id="formula" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">Formula</h2>
             <div className="mt-4 rounded-xl bg-slate-50 p-4">
               <p className="text-sm text-slate-700">
@@ -173,7 +191,7 @@ export default function TakeHomePayPage() {
             </p>
           </article>
 
-          <article>
+          <article id="faq" className="scroll-mt-24">
             <h2 className="mb-5 section-title">FAQ</h2>
             <FAQAccordion items={faqItems} />
           </article>

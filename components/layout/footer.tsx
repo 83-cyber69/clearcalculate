@@ -12,6 +12,20 @@ export function Footer() {
           <p className="mt-2 text-sm leading-6 text-slate-600">
             Free online calculators built for students, professionals, and families.
           </p>
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-600">
+            <Link href="/about" className="hover:text-blue-700">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-blue-700">
+              Contact
+            </Link>
+            <Link href="/privacy" className="hover:text-blue-700">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-blue-700">
+              Terms
+            </Link>
+          </div>
         </div>
         <div>
           <p className="text-sm font-semibold text-slate-900">Top Tools</p>
