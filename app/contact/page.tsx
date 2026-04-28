@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact ClearCalculate for feedback, corrections, or partnership inquiries."
+  description: "Contact ClearCalculate for feedback, corrections, or partnership inquiries.",
+  alternates: {
+    canonical: "/contact"
+  }
 };
 
 export default function ContactPage() {

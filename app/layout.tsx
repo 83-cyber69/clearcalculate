@@ -25,9 +25,6 @@ export const metadata: Metadata = {
       { url: "/apple-icon.png", type: "image/png" }
     ]
   },
-  alternates: {
-    canonical: "/"
-  },
   openGraph: {
     title: "ClearCalculate | Free Online Calculators",
     description: siteConfig.description,
