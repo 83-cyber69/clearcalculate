@@ -10,8 +10,8 @@ type EmailCaptureCardProps = {
 };
 
 export function EmailCaptureCard({
-  title = "Get useful tools (optional)",
-  description = "Save calculators you use most and get occasional tips. No spam.",
+  title = "Get calculator tips",
+  description = "Occasional updates. No spam.",
   className
 }: EmailCaptureCardProps) {
   const [email, setEmail] = useState("");
@@ -39,19 +39,17 @@ export function EmailCaptureCard({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-200"
+            className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-200 sm:flex-1"
             required
           />
           <button
             type="submit"
-            className="h-11 whitespace-nowrap rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white hover:bg-slate-800"
+            className="h-11 whitespace-nowrap rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white hover:bg-slate-800 sm:w-auto"
           >
             Subscribe
           </button>
         </form>
       )}
-
-      <p className="mt-3 text-xs text-slate-500">This is a placeholder. Hook it up to your email provider later.</p>
     </div>
   );
 }
