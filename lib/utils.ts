@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const brand = {
+  orange: "#ff6a00"
+};
+
 export const siteConfig = {
   name: "ClearCalculate",
   description:

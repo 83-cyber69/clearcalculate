@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { generateId } from "@/lib/utils/id";
 
 type ClassRow = {
   id: string;
@@ -43,7 +44,7 @@ const exampleClasses: ClassRow[] = [
 
 function newClass(): ClassRow {
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     name: "",
     grade: "A",
     credits: 3,
@@ -52,7 +53,15 @@ function newClass(): ClassRow {
 }
 
 export function GpaCalculator() {
-  const [classes, setClasses] = useState<ClassRow[]>([newClass()]);
+  const [classes, setClasses] = useState<ClassRow[]>([
+    {
+      id: "initial",
+      name: "",
+      grade: "A",
+      credits: 3,
+      honors: false
+    }
+  ]);
   const [weightedEnabled, setWeightedEnabled] = useState(true);
 
   const totals = useMemo(() => {
@@ -79,9 +88,29 @@ export function GpaCalculator() {
     };
   }, [classes, weightedEnabled]);
 
-  const updateClass = (id: string, patch: Partial<ClassRow>) => {
+  const updateClass = useCallback((id: string, patch: Partial<ClassRow>) => {
     setClasses((prev) => prev.map((course) => (course.id === id ? { ...course, ...patch } : course)));
-  };
+  }, []);
+
+  const handleAddClass = useCallback(() => {
+    setClasses((prev) => [...prev, newClass()]);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setClasses([
+      {
+        id: "initial",
+        name: "",
+        grade: "A",
+        credits: 3,
+        honors: false
+      }
+    ]);
+  }, []);
+
+  const handleLoadExample = useCallback(() => {
+    setClasses(exampleClasses);
+  }, []);
 
   return (
     <div className="space-y-7">
@@ -98,13 +127,13 @@ export function GpaCalculator() {
               </label>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button variant="default" onClick={() => setClasses((prev) => [...prev, newClass()])}>
+              <Button variant="default" onClick={handleAddClass}>
                 Add class
               </Button>
-              <Button variant="outline" onClick={() => setClasses(exampleClasses)}>
+              <Button variant="outline" onClick={handleLoadExample}>
                 Save example classes
               </Button>
-              <Button variant="ghost" onClick={() => setClasses([newClass()])}>
+              <Button variant="ghost" onClick={handleReset}>
                 Reset
               </Button>
             </div>

@@ -5,7 +5,10 @@ export function Footer() {
     <footer className="mt-24 border-t border-slate-200/70 bg-white/70 backdrop-blur-sm">
       <div className="container-max grid gap-8 py-12 md:grid-cols-3">
         <div>
-          <p className="text-base font-semibold text-slate-900">ClearCalculate</p>
+          <p className="text-base font-semibold text-slate-900">
+            <span className="mr-0.5">Clear</span>
+            <span className="text-brand-orange">Calculate</span>
+          </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
             Free online calculators built for students, professionals, and families.
           </p>
@@ -16,11 +19,11 @@ export function Footer() {
             <Link href="/gpa-calculator" className="block hover:text-blue-700">
               GPA Calculator
             </Link>
-            <Link href="/" className="block hover:text-blue-700">
-              Financial Calculators
+            <Link href="/take-home-pay-calculator" className="block hover:text-blue-700">
+              Take Home Pay Calculator
             </Link>
-            <Link href="/" className="block hover:text-blue-700">
-              Health Calculators
+            <Link href="/tdee-calculator" className="block hover:text-blue-700">
+              TDEE Calculator
             </Link>
           </div>
         </div>

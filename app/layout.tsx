@@ -14,6 +14,11 @@ export const metadata: Metadata = {
     template: "%s | ClearCalculate"
   },
   description: siteConfig.description,
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" }
+    ]
+  },
   alternates: {
     canonical: "/"
   },

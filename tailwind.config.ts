@@ -13,6 +13,9 @@ const config: Config = {
         background: "#ffffff",
         foreground: "#0f172a",
         muted: "#f8fafc",
+        brand: {
+          orange: "#ff6a00"
+        },
         primary: {
           DEFAULT: "#2563eb",
           foreground: "#ffffff"

@@ -35,11 +35,14 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
                 )}
               />
             </button>
-            {open ? (
-              <div className="border-t border-slate-100 px-5 py-4 text-sm leading-6 text-slate-600">
-                {item.answer}
-              </div>
-            ) : null}
+            <div
+              className={cn(
+                "border-t border-slate-100 px-5 py-4 text-sm leading-6 text-slate-600 transition-all",
+                open ? "block" : "hidden"
+              )}
+            >
+              {item.answer}
+            </div>
           </div>
         );
       })}

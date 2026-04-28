@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:stable": "node scripts/dev-start.js",
+    "dev:clean": "node scripts/clean-cache.js && node scripts/dev-start.js",
+    "dev:reset": "node scripts/dev-reset.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -22,6 +25,8 @@
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "autoprefixer": "^10.4.21",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.4",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
