@@ -48,6 +48,36 @@ const faqItems = [
   {
     question: "What factors affect my TDEE?",
     answer: "TDEE is affected by your basal metabolic rate (BMR), activity level, age, gender, height, and weight. The calculator accounts for all these factors to provide a personalized estimate."
+  },
+  {
+    question: "What’s the difference between BMR and TDEE?",
+    answer:
+      "BMR is your resting calorie burn at complete rest. TDEE adds activity and movement on top of BMR to estimate your total daily calorie needs."
+  },
+  {
+    question: "How do I pick the right activity level?",
+    answer:
+      "Choose the option that matches your average week, not your best week. If you’re unsure, pick a lower activity level and adjust based on 2–3 weeks of real weight trends."
+  },
+  {
+    question: "How big should my calorie deficit be?",
+    answer:
+      "Many people start with a 300–500 calorie deficit per day. Bigger deficits can cause more hunger and reduce performance. Sustainable progress usually beats aggressive targets."
+  },
+  {
+    question: "Why isn’t my weight changing even if I’m in a deficit?",
+    answer:
+      "Common causes include underestimating intake, overestimating activity, water retention, or reduced daily movement (NEAT). Use weekly averages and adjust gradually."
+  },
+  {
+    question: "Can I lose fat and build muscle at the same time?",
+    answer:
+      "Body recomposition is possible, especially for beginners or people returning to training. Strength training, adequate protein, and a moderate deficit usually work better than extreme cuts."
+  },
+  {
+    question: "How should I use body fat and IBW estimates?",
+    answer:
+      "Use them as context and trend tools. Tape-based body fat estimates are sensitive to measurement technique, and IBW is a height-based reference point rather than a strict target."
   }
 ];
 
@@ -89,6 +119,151 @@ export default function HealthPage() {
           <div className="mx-auto max-w-2xl">
             <SmartSearch />
           </div>
+        </div>
+      </section>
+
+      <section className="container-max py-14">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="space-y-8">
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">How to use these health calculators</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Most health and fitness planning is easier when you start with energy balance. Get a reasonable estimate of maintenance calories, then
+                choose a goal (lose fat, maintain, gain muscle) and make small adjustments based on weekly trends.
+              </p>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Recommended order:
+                </p>
+                <ol className="list-decimal space-y-2 pl-5">
+                  <li>
+                    Estimate maintenance with the{" "}
+                    <Link href="/tdee-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      TDEE Calculator
+                    </Link>
+                    .
+                  </li>
+                  <li>
+                    Convert maintenance into a target using the{" "}
+                    <Link href="/calorie-deficit-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Calorie Deficit Calculator
+                    </Link>
+                    .
+                  </li>
+                  <li>
+                    Track body composition context with the{" "}
+                    <Link href="/body-fat-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Body Fat Calculator
+                    </Link>
+                    and use the{" "}
+                    <Link href="/ideal-body-weight-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Ideal Body Weight Calculator
+                    </Link>
+                    as a simple height-based reference.
+                  </li>
+                </ol>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">The core idea: maintenance + adjustment</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Maintenance calories are the level where your weight tends to stay stable over time. A cut or bulk is simply an adjustment above or below
+                that baseline.
+              </p>
+              <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
+                <p>
+                  <strong>Target calories</strong> = TDEE ± adjustment
+                </p>
+                <p className="mt-2">
+                  Example: if TDEE is 2,400 and you cut 400 calories, target = 2,000 kcal/day
+                </p>
+              </div>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                The “right” adjustment is the one you can stick to while sleeping well, training effectively, and maintaining reasonable hunger levels.
+              </p>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Common mistakes (and how to avoid them)</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>Choosing an activity level that overestimates your average movement.</li>
+                <li>Going too aggressive on deficit and burning out after 1–2 weeks.</li>
+                <li>Judging progress by day-to-day scale weight rather than weekly averages.</li>
+                <li>Expecting perfect precision: calculators are estimates—use them to iterate.</li>
+              </ul>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Which calculator should you use?</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Goal</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Best tool</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">What to focus on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">Find maintenance calories</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/tdee-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          TDEE Calculator
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Maintenance target + goal calories</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">Pick a cut target</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/calorie-deficit-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Calorie Deficit
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Daily target and implied weekly change</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">Estimate body fat</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/body-fat-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Body Fat
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Trend over time with consistent measuring</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Reference a height-based weight estimate</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/ideal-body-weight-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Ideal Body Weight
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Context for planning, not a strict target</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <aside className="space-y-6">
+            <div className="glass-card p-6">
+              <h2 className="text-base font-semibold text-slate-900">Quick start</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                If you do just two things, estimate maintenance and choose a realistic deficit. Then track your weekly averages and adjust.
+              </p>
+              <div className="mt-4 space-y-2">
+                <Link href="/tdee-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                  Open TDEE Calculator
+                </Link>
+                <Link href="/calorie-deficit-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                  Open Calorie Deficit
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 

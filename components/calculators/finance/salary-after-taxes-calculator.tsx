@@ -33,6 +33,27 @@ export function SalaryAfterTaxesCalculator() {
     return { taxes, net };
   }, [grossSalary, effectiveTaxRate]);
 
+  const resultExplanation = useMemo(() => {
+    const salary = Number(grossSalary);
+    const ratePct = Number(effectiveTaxRate);
+    const safeSalary = Number.isFinite(salary) ? Math.max(salary, 0) : 0;
+    const safeRatePct = Number.isFinite(ratePct) ? Math.min(Math.max(ratePct, 0), 100) : 0;
+
+    if (safeSalary <= 0) {
+      return "Enter a gross salary to estimate net pay after taxes.";
+    }
+
+    if (safeRatePct <= 0) {
+      return "With a 0% effective tax rate, net salary equals gross salary.";
+    }
+
+    if (safeRatePct >= 40) {
+      return "A 40%+ effective tax rate is high for many people. Double-check whether you’re including federal + state + payroll taxes.";
+    }
+
+    return "This is a fast estimate using an average tax rate. For a paycheck-style breakdown (FICA, deductions), use the Take Home Pay Calculator.";
+  }, [effectiveTaxRate, grossSalary]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -64,6 +85,10 @@ export function SalaryAfterTaxesCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Net Salary" value={formatCurrency(output.net)} accent />
         <ResultCard label="Estimated Taxes" value={formatCurrency(output.taxes)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

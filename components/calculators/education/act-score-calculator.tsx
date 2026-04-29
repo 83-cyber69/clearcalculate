@@ -29,6 +29,19 @@ export function ActScoreCalculator() {
     return { composite, avg };
   }, [english, math, reading, science]);
 
+  const resultExplanation = useMemo(() => {
+    const roundedUp = output.composite > output.avg;
+    const diff = Math.abs(output.avg - output.composite);
+
+    if (diff < 0.001) {
+      return "Your composite is the average of the four section scores.";
+    }
+
+    return roundedUp
+      ? "Your composite rounds up from the section average. Small section improvements can sometimes change the rounded composite."
+      : "Your composite rounds down from the section average. A small bump in one section may be enough to round up.";
+  }, [output.avg, output.composite]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -46,6 +59,10 @@ export function ActScoreCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Composite" value={`${output.composite}`} accent />
         <ResultCard label="Average (before rounding)" value={output.avg.toFixed(2)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

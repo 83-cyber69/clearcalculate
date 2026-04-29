@@ -88,6 +88,23 @@ export function GpaCalculator() {
     };
   }, [classes, weightedEnabled]);
 
+  const resultExplanation = useMemo(() => {
+    if (totals.totalCredits <= 0) {
+      return "Add at least one class with credits to calculate GPA.";
+    }
+
+    if (!weightedEnabled) {
+      return "This is an unweighted GPA (all classes use the same grade-point scale). Higher-credit classes affect the result more.";
+    }
+
+    const diff = totals.weightedGpa - totals.gpa;
+    if (diff <= 0.01) {
+      return "Weighted GPA is enabled, but no honors/AP boost is affecting the result yet. Mark honors/AP classes if applicable.";
+    }
+
+    return "Weighted GPA is enabled. Honors/AP boosts can raise the result, and higher-credit classes have a bigger impact than lower-credit classes.";
+  }, [totals.gpa, totals.totalCredits, totals.weightedGpa, weightedEnabled]);
+
   const updateClass = useCallback((id: string, patch: Partial<ClassRow>) => {
     setClasses((prev) => prev.map((course) => (course.id === id ? { ...course, ...patch } : course)));
   }, []);
@@ -204,6 +221,10 @@ export function GpaCalculator() {
           </div>
         </CardContent>
       </Card>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
+      </div>
     </div>
   );
 }

@@ -38,6 +38,29 @@ const faqItems = [
   {
     question: "Does this work for quizzes?",
     answer: "Yes. Any correct/total format works."
+  },
+  {
+    question: "How do I calculate percentage from points instead of questions?",
+    answer: "Use (Points Earned / Points Possible) × 100. This is the right method when questions have different point values."
+  },
+  {
+    question: "Why is my percentage different from the gradebook?",
+    answer:
+      "Some gradebooks drop questions, apply weights, or include extra credit. This tool calculates a straightforward percentage from the numbers you enter."
+  },
+  {
+    question: "What if total questions is 0?",
+    answer: "A percentage isn’t defined when the total is 0. Enter at least 1 total question."
+  },
+  {
+    question: "How many can I miss to still get a 90%?",
+    answer:
+      "Rearrange the formula: Correct Needed = 0.90 × Total. Then Missed Allowed = Total − Correct Needed (round based on your teacher’s rules)."
+  },
+  {
+    question: "Is percentage the same as a letter grade?",
+    answer:
+      "Not always. Schools and teachers set different cutoffs (for example, an A might be 90%+ or 93%+)."
   }
 ];
 
@@ -76,16 +99,32 @@ export default function Page() {
           <>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">How it works</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                A test score percentage converts “how many you got right” into a standardized score out of 100. It’s useful because it lets you compare
+                different tests fairly—regardless of whether the quiz had 10 questions or 50 questions.
+              </p>
               <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
                 <li>Enter correct answers.</li>
                 <li>Enter total questions.</li>
                 <li>The calculator converts it to a percentage.</li>
               </ol>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                If your class uses <strong>points</strong> (where questions can be worth different values), use points earned / points possible instead of
+                correct / total questions.
+              </p>
             </article>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">Formula</h2>
               <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
                 Percentage = (Correct / Total) × 100
+              </div>
+              <div className="mt-4 space-y-2 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  If you’re using points, the same structure applies:
+                </p>
+                <p className="rounded-xl bg-slate-50 p-4">
+                  <strong>Percentage</strong> = (Points Earned / Points Possible) × 100
+                </p>
               </div>
             </article>
             <article className="glass-card p-6 sm:p-8">
@@ -93,7 +132,76 @@ export default function Page() {
               <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
                 42 correct out of 50 total → 42/50 = 84%
               </div>
+              <div className="mt-4 space-y-2 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Interpretation: an 84% is commonly a B-range score in many grading scales, but your exact letter grade depends on your teacher’s cutoffs
+                  and any curve.
+                </p>
+              </div>
             </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">How to interpret your result</h2>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Your percentage is a normalized score. To make it actionable, connect it to your course rules:
+                </p>
+                <ul className="list-disc space-y-2 pl-5">
+                  <li>
+                    Compare it to your <strong>letter grade cutoffs</strong> (example: 90%+ = A).
+                  </li>
+                  <li>
+                    If your class has a <strong>curve</strong>, your percentile rank or standard deviation may matter more than raw percentage.
+                  </li>
+                  <li>
+                    If the test is points-based, make sure your inputs reflect points—not just question count.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Common mistakes</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>Using correct/total questions when questions have different point values.</li>
+                <li>Forgetting to include bonus points or extra credit (if your teacher counts them).</li>
+                <li>Rounding too early (wait until the end unless your rubric says otherwise).</li>
+                <li>Assuming percentage equals letter grade without checking your class cutoffs.</li>
+              </ul>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Comparison table</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Scoring system</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">What to enter</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Why</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">All questions equal</td>
+                      <td className="py-3 pr-4">Correct / Total questions</td>
+                      <td className="py-3 pr-4">Each question contributes the same amount</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">Points-based test</td>
+                      <td className="py-3 pr-4">Points earned / Points possible</td>
+                      <td className="py-3 pr-4">Questions may be worth different points</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Weighted categories</td>
+                      <td className="py-3 pr-4">Use a weighted grade tool</td>
+                      <td className="py-3 pr-4">The test may be only part of your overall course grade</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
             <FAQSection items={faqItems} />
             <RelatedCalculators slug="test-score-percentage-calculator" />
           </>

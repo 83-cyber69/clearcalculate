@@ -54,6 +54,21 @@ const faqItems = [
     question: "How accurate is a TDEE estimate?",
     answer:
       "It is a strong starting point, but real TDEE can vary based on genetics, sleep, and daily movement. Track your weight for 2-3 weeks and adjust calories if needed."
+  },
+  {
+    question: "What activity level should I choose?",
+    answer:
+      "Pick the option that matches your average week, not your best week. If you’re unsure, choose a lower activity level and adjust based on real weight trends."
+  },
+  {
+    question: "Should I eat back exercise calories?",
+    answer:
+      "Often you don’t need to track them separately if your activity level already reflects your training. If your workouts vary a lot week to week, you may adjust intake on training days."
+  },
+  {
+    question: "Why am I not losing weight at my calculated deficit?",
+    answer:
+      "Common reasons include under-tracking intake, lower daily movement (NEAT), water retention, or an activity level that was overestimated. Use weekly averages and adjust gradually."
   }
 ];
 
@@ -187,6 +202,66 @@ export default function TdeePage() {
             <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
               TDEE represents your total daily calorie burn. It combines resting metabolism and activity output to give a practical target for weight maintenance and nutrition planning.
             </p>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">How to interpret your results</h2>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+              <p>
+                Use maintenance calories as your baseline, then make small changes based on your goal. The cutting and bulking numbers are starting points,
+                not rules.
+              </p>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>
+                  If weight changes faster than expected, reduce the deficit/surplus.
+                </li>
+                <li>
+                  If weight doesn’t change after 2–3 weeks, adjust intake by 100–200 kcal/day.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">Common mistakes</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+              <li>Picking an activity level that reflects “ideal” weeks instead of your average.</li>
+              <li>Changing calories daily based on scale fluctuations instead of weekly trends.</li>
+              <li>Trying to cut too aggressively and losing training performance and adherence.</li>
+              <li>Ignoring sleep and steps (NEAT) which can change TDEE meaningfully.</li>
+            </ul>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">Comparison table</h2>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                <thead>
+                  <tr className="border-b border-slate-200">
+                    <th className="py-2 pr-4 font-semibold text-slate-900">Goal</th>
+                    <th className="py-2 pr-4 font-semibold text-slate-900">Typical adjustment</th>
+                    <th className="py-2 pr-4 font-semibold text-slate-900">What to watch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-slate-200">
+                    <td className="py-3 pr-4">Maintain</td>
+                    <td className="py-3 pr-4">Around TDEE</td>
+                    <td className="py-3 pr-4">Stable weekly weight trend</td>
+                  </tr>
+                  <tr className="border-b border-slate-200">
+                    <td className="py-3 pr-4">Lose fat</td>
+                    <td className="py-3 pr-4">-300 to -500 kcal/day</td>
+                    <td className="py-3 pr-4">Energy, hunger, training performance</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4">Gain muscle</td>
+                    <td className="py-3 pr-4">+200 to +400 kcal/day</td>
+                    <td className="py-3 pr-4">Rate of gain, waist/strength changes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </article>
 
           <article id="faq" className="scroll-mt-24">

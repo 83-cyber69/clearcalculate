@@ -51,6 +51,20 @@ export function MortgageCalculator() {
     return { loan, pAndI, total, tax, ins };
   }, [downPayment, homePrice, insuranceMonthly, propertyTaxMonthly, rate, termYears]);
 
+  const resultExplanation = useMemo(() => {
+    const price = Math.max(Number(homePrice) || 0, 0);
+    if (price <= 0) {
+      return "Enter a home price to estimate a mortgage payment.";
+    }
+
+    const taxAndIns = output.tax + output.ins;
+    if (taxAndIns > output.pAndI) {
+      return "Taxes + insurance are a large part of the monthly cost. Double-check these estimates and consider local property tax rates.";
+    }
+
+    return "Total monthly payment includes principal + interest plus taxes and insurance. Changing rate/term mainly affects principal + interest.";
+  }, [homePrice, output.ins, output.pAndI, output.tax]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -71,6 +85,10 @@ export function MortgageCalculator() {
         <ResultCard label="Total Monthly Payment" value={formatCurrency(output.total)} accent />
         <ResultCard label="Principal & Interest" value={formatCurrency(output.pAndI)} />
         <ResultCard label="Loan Amount" value={formatCurrency(output.loan)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

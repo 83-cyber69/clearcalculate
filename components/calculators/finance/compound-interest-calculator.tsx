@@ -41,6 +41,27 @@ export function CompoundInterestCalculator() {
     return { fv, contributions, growth };
   }, [annualReturn, monthlyContribution, starting, years]);
 
+  const resultExplanation = useMemo(() => {
+    const pv = Math.max(Number(starting) || 0, 0);
+    const y = Math.max(Number(years) || 0, 0);
+    const pmt = Math.max(Number(monthlyContribution) || 0, 0);
+
+    if (pv <= 0 && pmt <= 0) {
+      return "Enter a starting amount or a monthly contribution to estimate growth.";
+    }
+
+    if (y <= 0) {
+      return "Increase the time horizon to see compounding effects.";
+    }
+
+    const growthShare = output.fv > 0 ? output.growth / output.fv : 0;
+    if (growthShare >= 0.5) {
+      return "More than half of the projected balance comes from growth. Over longer horizons, returns can outweigh contributions.";
+    }
+
+    return "Total contributions set the baseline, and growth accelerates with time. Increasing years or monthly contributions often changes the result more than small return tweaks.";
+  }, [monthlyContribution, output.fv, output.growth, starting, years]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -59,6 +80,10 @@ export function CompoundInterestCalculator() {
         <ResultCard label="Future Value" value={formatCurrency(output.fv)} accent />
         <ResultCard label="Total Contributions" value={formatCurrency(output.contributions)} />
         <ResultCard label="Estimated Growth" value={formatCurrency(output.growth)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

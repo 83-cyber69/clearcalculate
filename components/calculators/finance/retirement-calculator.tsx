@@ -40,6 +40,22 @@ export function RetirementCalculator() {
 
   const monthlyIncomeRule = useMemo(() => output.fv * 0.04 / 12, [output.fv]);
 
+  const resultExplanation = useMemo(() => {
+    const y = Math.max(Number(years) || 0, 0);
+    const pmt = Math.max(Number(monthlyContribution) || 0, 0);
+    const pv = Math.max(Number(currentSavings) || 0, 0);
+
+    if (pv <= 0 && pmt <= 0) {
+      return "Enter current savings or a monthly contribution to project a future balance.";
+    }
+
+    if (y <= 5) {
+      return "Short horizons can look less dramatic because compounding has less time. Try increasing years to see the effect of long-term growth.";
+    }
+
+    return "Projected balance is a planning estimate based on your return assumption. The 4% rule figure is a rough guideline for sustainable withdrawals—use it for context, not certainty.";
+  }, [currentSavings, monthlyContribution, years]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -58,6 +74,10 @@ export function RetirementCalculator() {
         <ResultCard label="Projected Balance" value={formatCurrency(output.fv)} accent />
         <ResultCard label="Months Contributing" value={`${output.n}`} />
         <ResultCard label="4% Rule (monthly)" value={formatCurrency(monthlyIncomeRule)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

@@ -35,6 +35,15 @@ export function IdealBodyWeightCalculator() {
     };
   }, [heightCm, sex]);
 
+  const resultExplanation = useMemo(() => {
+    const cm = Math.max(Number(heightCm) || 0, 0);
+    if (cm <= 0) {
+      return "Enter a height to estimate ideal body weight.";
+    }
+
+    return "IBW is a simple height-based reference point. Use the range as a rough context, not a strict target—muscle mass, age, and body composition can shift what’s healthy for you.";
+  }, [heightCm]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -64,6 +73,10 @@ export function IdealBodyWeightCalculator() {
         <ResultCard label="Estimated IBW" value={`${output.ibwKg.toFixed(1)} kg`} accent />
         <ResultCard label="Low Range" value={`${output.lowKg.toFixed(1)} kg`} />
         <ResultCard label="High Range" value={`${output.highKg.toFixed(1)} kg`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

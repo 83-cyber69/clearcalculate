@@ -26,9 +26,30 @@ export function FinalGradeCalculator() {
     const finalGrade = safeCurrent * (1 - safeWeight) + safeFinal * safeWeight;
 
     return {
-      finalGrade
+      finalGrade,
+      safeCurrent,
+      safeFinal,
+      safeWeight
     };
   }, [currentGrade, finalExamGrade, finalExamWeight]);
+
+  const resultExplanation = useMemo(() => {
+    const delta = output.finalGrade - output.safeCurrent;
+    const direction = delta > 0.05 ? "increase" : delta < -0.05 ? "decrease" : "keep";
+    const points = Math.abs(delta);
+
+    if (output.safeWeight <= 0) {
+      return "With 0% weight, the final exam does not change your overall grade.";
+    }
+
+    const weightPct = Math.round(output.safeWeight * 100);
+
+    if (direction === "keep") {
+      return `With the final worth ${weightPct}%, your overall grade stays about the same (it’s pulled slightly toward your final exam score).`;
+    }
+
+    return `With the final worth ${weightPct}%, your overall grade should ${direction} by about ${points.toFixed(1)} points, moving toward your final exam score.`;
+  }, [output.finalGrade, output.safeCurrent, output.safeWeight]);
 
   return (
     <div className="space-y-7">
@@ -73,6 +94,10 @@ export function FinalGradeCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Final Grade" value={`${output.finalGrade.toFixed(1)}%`} accent />
         <ResultCard label="Exam Weight Used" value={`${Number(finalExamWeight || 0).toFixed(0)}%`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

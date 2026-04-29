@@ -78,6 +78,22 @@ export function BodyFatCalculator() {
     return { bf: clamped };
   }, [heightCm, hipCm, neckCm, sex, unitSystem, waistCm]);
 
+  const resultExplanation = useMemo(() => {
+    if (!Number.isFinite(output.bf) || output.bf <= 0) {
+      return "Enter measurements to estimate body fat. For best results, take 2–3 readings and use the average.";
+    }
+
+    if (output.bf >= 35) {
+      return "This estimate is on the higher side. Measurement-based methods are sensitive to tape placement—focus on consistent measuring conditions and track trends over time.";
+    }
+
+    if (output.bf <= 10) {
+      return "Very low body fat estimates can be less reliable with tape methods. If you’re using this for tracking, prioritize consistency (same time of day, same tape placement).";
+    }
+
+    return "Use this as a trend tool rather than a one-time number. Small changes week-to-week are often measurement noise; consistent direction over several weeks is more meaningful.";
+  }, [output.bf]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -133,6 +149,10 @@ export function BodyFatCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Body Fat" value={`${output.bf.toFixed(1)}%`} accent />
         <ResultCard label="Method" value="US Navy (measurement-based)" />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

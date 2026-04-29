@@ -30,6 +30,18 @@ export function ClassAverageCalculator() {
     return { count, average };
   }, [scoresRaw]);
 
+  const resultExplanation = useMemo(() => {
+    if (output.count === 0) {
+      return "Add at least one numeric score to calculate an average.";
+    }
+
+    if (output.count === 1) {
+      return "With only one score, the average equals that score. Add more scores for a meaningful class average.";
+    }
+
+    return "This is a simple (unweighted) mean. If assignments have different point values or weights, use a weighted grade method instead.";
+  }, [output.average, output.count]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -52,6 +64,10 @@ export function ClassAverageCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Average" value={`${output.average.toFixed(1)}%`} accent />
         <ResultCard label="Scores Count" value={`${output.count}`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

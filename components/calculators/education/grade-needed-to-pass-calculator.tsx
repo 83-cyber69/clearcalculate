@@ -27,9 +27,33 @@ export function GradeNeededToPassCalculator() {
 
     return {
       needed: Number.isFinite(needed) ? needed : 0,
-      remainingWeightPct: w * 100
+      remainingWeightPct: w * 100,
+      current: c,
+      target: t
     };
   }, [currentGrade, remainingWeight, targetGrade]);
+
+  const resultExplanation = useMemo(() => {
+    const needed = output.needed;
+
+    if (needed <= 0) {
+      return "You’re already above your target based on your current grade. Your remaining work has a cushion.";
+    }
+
+    if (needed > 100) {
+      return "This target may be unrealistic with the remaining weight unless there’s extra credit, a curve, or a grading policy change.";
+    }
+
+    if (needed >= 90) {
+      return "You’ll likely need a very high score on the remaining work. Look for partial credit, retakes, or extra credit opportunities.";
+    }
+
+    if (needed <= output.target) {
+      return "You can score below the target on the remaining work and still finish at your target overall grade.";
+    }
+
+    return "Aim for at least this average score across the remaining work to finish at your target overall grade.";
+  }, [output.needed, output.target]);
 
   return (
     <div className="space-y-7">
@@ -47,6 +71,10 @@ export function GradeNeededToPassCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Needed on Remaining Work" value={`${output.needed.toFixed(1)}%`} accent />
         <ResultCard label="Remaining Weight" value={`${output.remainingWeightPct.toFixed(0)}%`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

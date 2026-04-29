@@ -37,6 +37,31 @@ const faqItems = [
   {
     question: "Does compounding happen daily?",
     answer: "It depends on the account. This calculator uses a monthly compounding approximation." 
+  },
+  {
+    question: "What matters more: contribution or return rate?",
+    answer:
+      "Both matter, but contributions usually dominate early and compounding dominates later. Over long horizons, small rate differences can create large gaps."
+  },
+  {
+    question: "Does starting earlier make a big difference?",
+    answer:
+      "Yes. Time is one of the biggest drivers of compounding. Starting a few years earlier can outperform a higher monthly contribution started later."
+  },
+  {
+    question: "What is future value?",
+    answer:
+      "Future value is the projected balance after growth and contributions over time. It’s a model output, not a guaranteed result."
+  },
+  {
+    question: "Does inflation affect compound interest projections?",
+    answer:
+      "Yes. Inflation reduces purchasing power. For long-term planning, many people compare results using a lower “real” return rate (return minus inflation)."
+  },
+  {
+    question: "Can I use this for debt interest?",
+    answer:
+      "You can model compounding, but debt often compounds daily and may have different rules. For loans with fixed payments, use a loan calculator."
   }
 ];
 
@@ -75,16 +100,34 @@ export default function Page() {
           <>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">How it works</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Compound interest is the idea that your balance can grow on itself over time: you earn returns on your original deposit and on the returns
+                you’ve already earned. When you add monthly contributions, you’re feeding the compounding engine continuously.
+              </p>
               <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
                 <li>Enter starting amount and monthly contribution.</li>
                 <li>Enter an estimated annual return and time horizon.</li>
                 <li>The calculator estimates future value with compounding.</li>
               </ol>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Use this for planning and “what-if” scenarios: try changing time, contributions, or return rate to see which lever has the biggest effect.
+              </p>
             </article>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">Formula</h2>
               <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
                 Growth depends on periodic compounding and contributions over time.
+              </div>
+              <div className="mt-4 space-y-2 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  This calculator uses a month-by-month compounding approximation:
+                </p>
+                <div className="rounded-xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-700">Balance_next = Balance_now × (1 + r_month) + Contribution</p>
+                </div>
+                <p>
+                  Where <strong>r_month</strong> is annual return ÷ 12.
+                </p>
               </div>
             </article>
             <article className="glass-card p-6 sm:p-8">
@@ -93,6 +136,66 @@ export default function Page() {
                 $5,000 start + $200/month at 7% for 20 years → future value estimate
               </div>
             </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">How to interpret your result</h2>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Look at the split between <strong>total contributions</strong> and <strong>estimated growth</strong>.
+                </p>
+                <ul className="list-disc space-y-2 pl-5">
+                  <li>
+                    If growth is small, you may be early in the timeline—compounding tends to accelerate later.
+                  </li>
+                  <li>
+                    If growth is large relative to contributions, the timeline and return rate are doing most of the work.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Common mistakes</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>Assuming the projection is guaranteed (returns vary year to year).</li>
+                <li>Ignoring inflation when planning decades ahead.</li>
+                <li>Over-focusing on rate and under-focusing on consistency of contributions.</li>
+                <li>Using a return assumption that includes high-risk outcomes without acknowledging uncertainty.</li>
+              </ul>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Comparison table</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Change</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Usually affects</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Why</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">More years</td>
+                      <td className="py-3 pr-4">Growth a lot</td>
+                      <td className="py-3 pr-4">Compounding has more time to snowball</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">Higher monthly contribution</td>
+                      <td className="py-3 pr-4">Contributions + growth</td>
+                      <td className="py-3 pr-4">More principal gets time to compound</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Higher return assumption</td>
+                      <td className="py-3 pr-4">Growth</td>
+                      <td className="py-3 pr-4">Small changes compound into large differences</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
             <FAQSection items={faqItems} />
             <RelatedCalculators slug="compound-interest-calculator" />
           </>

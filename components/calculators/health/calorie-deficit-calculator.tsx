@@ -22,6 +22,26 @@ export function CalorieDeficitCalculator() {
     return { maintenance, def, target, weeklyLossLbs };
   }, [deficit, tdee]);
 
+  const resultExplanation = useMemo(() => {
+    if (output.maintenance <= 0) {
+      return "Enter your maintenance calories (TDEE) to calculate a target.";
+    }
+
+    if (output.def <= 0) {
+      return "A 0 calorie deficit equals maintenance. Increase deficit to see a weight-loss target.";
+    }
+
+    if (output.target <= 1200) {
+      return "Your target calories are very low. Consider a smaller deficit or verifying your TDEE before using aggressive targets.";
+    }
+
+    if (output.weeklyLossLbs >= 2) {
+      return "This deficit implies rapid weight loss. Faster isn’t always better—monitor energy, training performance, and adherence.";
+    }
+
+    return "Use this target as a starting point. Track weekly averages for 2–3 weeks and adjust deficit if progress is too fast/slow.";
+  }, [output.def, output.maintenance, output.target, output.weeklyLossLbs]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -38,6 +58,10 @@ export function CalorieDeficitCalculator() {
         <ResultCard label="Target Calories" value={`${Math.round(output.target)} kcal/day`} accent />
         <ResultCard label="Deficit" value={`${Math.round(output.def)} kcal/day`} />
         <ResultCard label="Estimated Weekly Loss" value={`${output.weeklyLossLbs.toFixed(2)} lb/week`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

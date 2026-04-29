@@ -86,6 +86,26 @@ export function TdeeCalculator() {
     };
   }, [activity, age, gender, goal, heightCm, weightKg]);
 
+  const resultExplanation = useMemo(() => {
+    const a = Number(activity);
+    if (!Number.isFinite(a) || a <= 0) {
+      return "Select an activity level to estimate maintenance calories.";
+    }
+
+    if (goal === "lose") {
+      if (output.targetCalories <= 1200) {
+        return "Your target calories are very low. Consider a smaller deficit, verifying your activity level, or consulting a professional before using aggressive targets.";
+      }
+      return "Use the goal calories as a starting cut target. Track weekly averages for 2–3 weeks and adjust up/down if weight change is faster or slower than expected.";
+    }
+
+    if (goal === "gain") {
+      return "Use the goal calories as a lean-bulk starting point. If weight gain is too fast, reduce slightly; if nothing changes after a few weeks, increase calories modestly.";
+    }
+
+    return "Maintenance calories are an estimate. If your weight trends up or down over 2–3 weeks at this intake, adjust calories until your trend is stable.";
+  }, [activity, goal, output.targetCalories]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -192,6 +212,10 @@ export function TdeeCalculator() {
           </div>
         </CardContent>
       </Card>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
+      </div>
     </div>
   );
 }

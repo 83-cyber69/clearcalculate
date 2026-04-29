@@ -37,6 +37,27 @@ export function HourlyToSalaryCalculator() {
     return { yearly, monthly };
   }, [hourlyRate, hoursPerWeek, weeksPerYear]);
 
+  const resultExplanation = useMemo(() => {
+    const h = Number(hoursPerWeek);
+    const w = Number(weeksPerYear);
+    const safeHours = Number.isFinite(h) ? Math.max(h, 0) : 0;
+    const safeWeeks = Number.isFinite(w) ? Math.min(Math.max(w, 0), 52) : 0;
+
+    if (safeHours <= 0 || safeWeeks <= 0) {
+      return "Enter hours per week and weeks per year to estimate an annual salary.";
+    }
+
+    if (safeWeeks < 48) {
+      return "Using fewer than 52 weeks can reflect unpaid time off or seasonal work. That lowers the annual estimate even if the hourly rate stays the same.";
+    }
+
+    if (safeHours > 40) {
+      return "If your hours/week include overtime, the annual number reflects total hours worked—not necessarily an overtime premium rate.";
+    }
+
+    return "This converts hourly pay into a yearly and monthly estimate using your schedule. For take-home pay after taxes, use the Take Home Pay Calculator.";
+  }, [hoursPerWeek, weeksPerYear]);
+
   return (
     <div className="space-y-7">
       <Card className="shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
@@ -53,6 +74,10 @@ export function HourlyToSalaryCalculator() {
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Yearly Salary" value={formatCurrency(output.yearly)} accent />
         <ResultCard label="Estimated Monthly Salary" value={formatCurrency(output.monthly)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );

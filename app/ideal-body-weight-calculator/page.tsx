@@ -39,6 +39,31 @@ const faqItems = [
   {
     question: "Should I use kg or lbs?",
     answer: "This calculator outputs kilograms. You can convert to pounds by multiplying kg by 2.2046."
+  },
+  {
+    question: "Why does the formula change by sex?",
+    answer:
+      "IBW formulas use different baseline constants for males and females to reflect average body composition differences in the reference populations used to develop them."
+  },
+  {
+    question: "Is IBW used in healthcare?",
+    answer:
+      "Yes. IBW is sometimes used for dosing guidance and clinical calculations, but it’s not the same as an individualized health target." 
+  },
+  {
+    question: "Does age affect IBW?",
+    answer:
+      "Most classic IBW formulas don’t include age. In real life, age can affect body composition and what weight is healthy or sustainable." 
+  },
+  {
+    question: "What if I’m under 5 feet tall?",
+    answer:
+      "Many IBW formulas use 5 feet as a reference point. For shorter heights, the formula still produces an estimate, but treat it as a rough reference rather than an exact target." 
+  },
+  {
+    question: "Should I use IBW or BMI to set a goal?",
+    answer:
+      "Both are simple screening tools. If you want a range, BMI categories can be helpful; if you want a single reference point, IBW provides one. Neither replaces body composition or medical guidance." 
   }
 ];
 
@@ -77,11 +102,71 @@ export default function Page() {
           <>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">How it works</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Ideal body weight (IBW) formulas estimate a reference weight from height (and typically sex). These formulas are commonly used in
+                clinical contexts as a quick baseline, but they don’t capture individual differences like muscle mass, bone density, or body fat percentage.
+              </p>
               <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
                 <li>Enter your height and sex.</li>
                 <li>The calculator estimates an ideal weight point and a small range.</li>
                 <li>Use it as a quick reference for planning.</li>
               </ol>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">How to interpret your result</h2>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  The IBW point estimate is a reference, not a requirement. The small range is a simple way to acknowledge that “healthy” can vary around
+                  the estimate.
+                </p>
+                <ul className="list-disc space-y-2 pl-5">
+                  <li>If you have high lean mass, a healthy weight may be higher than IBW.</li>
+                  <li>If you’re using IBW for fitness goals, pair it with waist measurements or body fat tracking.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Common mistakes</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>Treating IBW as a strict target instead of a reference point.</li>
+                <li>Ignoring body composition (muscle vs fat) when setting goals.</li>
+                <li>Comparing IBW across formulas (different formulas can disagree).</li>
+                <li>Forgetting to convert kg to lbs if you plan in pounds.</li>
+              </ul>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Comparison table</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Tool</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Uses</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Best for</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">IBW</td>
+                      <td className="py-3 pr-4">Height + sex</td>
+                      <td className="py-3 pr-4">Single reference point</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">BMI range</td>
+                      <td className="py-3 pr-4">Height + weight</td>
+                      <td className="py-3 pr-4">Broad screening range</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Body fat %</td>
+                      <td className="py-3 pr-4">Measurements / devices</td>
+                      <td className="py-3 pr-4">Composition and trend tracking</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </article>
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">Example</h2>

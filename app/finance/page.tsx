@@ -48,6 +48,36 @@ const faqItems = [
   {
     question: "Is my financial data secure?",
     answer: "Yes, all calculations happen in your browser. We don't store or transmit any of your financial information. Your privacy and security are our priority."
+  },
+  {
+    question: "What’s the difference between gross salary and take-home pay?",
+    answer:
+      "Gross salary is your pay before taxes and deductions. Take-home pay is what actually lands in your bank account after federal/state/payroll taxes and benefits or retirement contributions."
+  },
+  {
+    question: "What’s the difference between effective tax rate and marginal tax rate?",
+    answer:
+      "Marginal rate is the tax rate on your last dollar of income. Effective rate is total tax divided by total income, and is usually lower."
+  },
+  {
+    question: "When should I use the Salary After Taxes calculator vs the Take Home Pay calculator?",
+    answer:
+      "Use Salary After Taxes for a fast estimate using a single effective tax rate. Use Take Home Pay when you want a more paycheck-style estimate including FICA and common deductions."
+  },
+  {
+    question: "How do I compare a 15-year vs 30-year mortgage?",
+    answer:
+      "Compare both monthly payment and total interest. A 15-year usually costs less overall but requires a higher monthly payment."
+  },
+  {
+    question: "How do I estimate the impact of a higher interest rate on a loan?",
+    answer:
+      "Run the Loan Payment Calculator with the new APR and the same term and principal. Even small rate changes can meaningfully change total interest over long terms."
+  },
+  {
+    question: "How should I use compound interest results for planning?",
+    answer:
+      "Treat projections as scenarios, not promises. The best use is comparing levers: starting earlier, contributing more, and giving returns more time to compound."
   }
 ];
 
@@ -89,6 +119,168 @@ export default function FinancePage() {
           <div className="mx-auto max-w-2xl">
             <SmartSearch />
           </div>
+        </div>
+      </section>
+
+      <section className="container-max py-14">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="space-y-8">
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">How to use these finance calculators</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                Finance decisions usually boil down to two questions: what does this cost me each month, and what does it cost me over time? The tools in
+                this category help you answer both quickly so you can compare options without a spreadsheet.
+              </p>
+              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Common workflows:
+                </p>
+                <ul className="list-disc space-y-2 pl-5">
+                  <li>
+                    <strong>Paycheck planning:</strong> start with{" "}
+                    <Link href="/take-home-pay-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Take Home Pay
+                    </Link>
+                    , then sanity-check with{" "}
+                    <Link href="/salary-after-taxes-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Salary After Taxes
+                    </Link>
+                    for a fast effective-rate estimate.
+                  </li>
+                  <li>
+                    <strong>Debt affordability:</strong> use the{" "}
+                    <Link href="/loan-payment-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Loan Payment Calculator
+                    </Link>
+                    to compare terms and rates, then use the total interest output to understand the long-run cost.
+                  </li>
+                  <li>
+                    <strong>Housing budget:</strong> use the{" "}
+                    <Link href="/mortgage-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Mortgage Calculator
+                    </Link>
+                    to estimate total monthly payment (including taxes/insurance inputs).
+                  </li>
+                  <li>
+                    <strong>Long-term growth:</strong> model scenarios with the{" "}
+                    <Link href="/compound-interest-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Compound Interest Calculator
+                    </Link>
+                    and connect it to retirement targets with the{" "}
+                    <Link href="/retirement-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Retirement Calculator
+                    </Link>
+                    .
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Key formulas (simple versions)</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+                You don’t need to memorize formulas to use the calculators, but it helps to know what the outputs represent:
+              </p>
+              <div className="mt-4 space-y-4">
+                <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
+                  <p>
+                    <strong>Net salary estimate</strong> = gross × (1 − effective tax rate)
+                  </p>
+                  <p className="mt-2">Use Salary After Taxes for a single-rate estimate and Take Home Pay for a paycheck-style estimate.</p>
+                </div>
+                <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
+                  <p>
+                    <strong>Compound growth (concept)</strong> = starting balance + contributions + growth over time
+                  </p>
+                </div>
+                <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700 sm:text-base">
+                  <p>
+                    <strong>Loan cost (concept)</strong> = monthly payment × number of months
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Common mistakes (and what to do instead)</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>Comparing options by monthly payment only (also compare total interest / total paid).</li>
+                <li>Assuming every dollar of salary is equally taxed (marginal vs effective rate confusion).</li>
+                <li>Using an optimistic return rate in long-term projections without stress-testing a lower rate.</li>
+                <li>Forgetting non-loan housing costs like taxes, insurance, and HOA fees when budgeting.</li>
+              </ul>
+            </article>
+
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Which calculator should you use?</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Question</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Best tool</th>
+                      <th className="py-2 pr-4 font-semibold text-slate-900">Output to focus on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">How much will I take home?</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/take-home-pay-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Take Home Pay
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Yearly/monthly net pay</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">What’s my monthly loan payment?</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/loan-payment-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Loan Payment
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Payment + total interest</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="py-3 pr-4">What’s the true monthly cost of a home?</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/mortgage-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Mortgage
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">PITI-style total payment</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">How could savings grow over time?</td>
+                      <td className="py-3 pr-4">
+                        <Link href="/compound-interest-calculator" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                          Compound Interest
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4">Contributions vs growth</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <aside className="space-y-6">
+            <div className="glass-card p-6">
+              <h2 className="text-base font-semibold text-slate-900">Quick start</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                For most people, the fastest win is understanding take-home pay and comparing total loan cost (not just the monthly payment).
+              </p>
+              <div className="mt-4 space-y-2">
+                <Link href="/take-home-pay-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                  Open Take Home Pay
+                </Link>
+                <Link href="/loan-payment-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                  Open Loan Payment
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 

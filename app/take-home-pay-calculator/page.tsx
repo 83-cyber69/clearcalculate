@@ -54,6 +54,21 @@ const faqItems = [
     question: "How do I estimate take-home pay from an hourly wage?",
     answer:
       "Convert hourly pay to annual pay (hourly rate x hours per week x 52), then use the annual salary in the calculator for an estimate."
+  },
+  {
+    question: "Why does my paycheck differ from the estimate?",
+    answer:
+      "Real paychecks can include pre-tax benefits, post-tax deductions, bonuses, local taxes, and different withholding settings. Use this as a planning baseline."
+  },
+  {
+    question: "Should I include bonuses in annual salary?",
+    answer:
+      "Only if you want an average-year estimate. Bonuses are often withheld differently and may not be consistent, so consider running a base-salary scenario and a bonus scenario separately."
+  },
+  {
+    question: "Does increasing retirement always lower take-home pay?",
+    answer:
+      "It usually lowers take-home in the short term, but it may reduce taxable income. The net effect depends on your tax situation and whether contributions are pre-tax or Roth."
   }
 ];
 
@@ -138,6 +153,10 @@ export default function TakeHomePayPage() {
               <li>Select your state and filing status for estimated tax rates.</li>
               <li>Add deductions like retirement % and monthly health insurance.</li>
             </ol>
+            <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
+              The result updates instantly so you can run “what-if” scenarios: test different retirement percentages, compare states, and see how insurance
+              costs affect your real monthly budget.
+            </p>
           </article>
 
           <article id="formula" className="glass-card p-6 sm:p-8 scroll-mt-24">
@@ -189,6 +208,66 @@ export default function TakeHomePayPage() {
             <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
               Take-home pay is your net income after required taxes and elected deductions. It helps you budget based on real cash flow—not just gross salary.
             </p>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">How to interpret your result</h2>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+              <p>
+                Your “take-home pay” is the money you can actually spend after deductions. Use it to answer practical questions:
+              </p>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>What’s my realistic monthly budget after taxes?</li>
+                <li>Can I afford a rent/mortgage payment at this income?</li>
+                <li>How much does increasing retirement savings change my net pay?</li>
+              </ul>
+              <p>
+                If your take-home rate seems low, check state selection and benefits. Health insurance and retirement contributions can reduce net pay
+                significantly even when gross salary looks strong.
+              </p>
+            </div>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">Common mistakes</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+              <li>Assuming take-home pay equals gross salary minus “income tax” only (FICA and deductions matter).</li>
+              <li>Forgetting pay frequency differences (monthly vs biweekly vs yearly).</li>
+              <li>Double-counting deductions (subtracting them manually and also including them as inputs).</li>
+              <li>Ignoring local taxes or benefits that vary by employer.</li>
+            </ul>
+          </article>
+
+          <article className="glass-card p-6 sm:p-8">
+            <h2 className="section-title">Comparison table</h2>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+                <thead>
+                  <tr className="border-b border-slate-200">
+                    <th className="py-2 pr-4 font-semibold text-slate-900">Metric</th>
+                    <th className="py-2 pr-4 font-semibold text-slate-900">Includes</th>
+                    <th className="py-2 pr-4 font-semibold text-slate-900">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-slate-200">
+                    <td className="py-3 pr-4">Gross salary</td>
+                    <td className="py-3 pr-4">Before taxes and deductions</td>
+                    <td className="py-3 pr-4">Top-line compensation comparisons</td>
+                  </tr>
+                  <tr className="border-b border-slate-200">
+                    <td className="py-3 pr-4">Net salary after taxes</td>
+                    <td className="py-3 pr-4">Taxes only (depends on model)</td>
+                    <td className="py-3 pr-4">Quick planning estimates</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4">Take-home pay</td>
+                    <td className="py-3 pr-4">Taxes + payroll deductions</td>
+                    <td className="py-3 pr-4">Monthly budgeting and cash flow</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </article>
 
           <article id="faq" className="scroll-mt-24">

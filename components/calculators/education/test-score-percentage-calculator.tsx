@@ -20,9 +20,26 @@ export function TestScorePercentageCalculator() {
     const pct = (safeC / safeT) * 100;
 
     return {
-      pct: Number.isFinite(pct) ? pct : 0
+      pct: Number.isFinite(pct) ? pct : 0,
+      incorrect: Math.max(safeT - safeC, 0)
     };
   }, [correct, total]);
+
+  const resultExplanation = useMemo(() => {
+    if (!Number.isFinite(output.pct)) {
+      return "Enter valid numbers to calculate a percentage score.";
+    }
+
+    if (output.pct >= 90) {
+      return "This is typically an A-range score in many grading scales, but check your syllabus for cutoffs.";
+    }
+
+    if (output.pct >= 70) {
+      return "This is above a common passing threshold (often 70%), but passing rules vary by class.";
+    }
+
+    return "If your class offers partial credit or points-based grading, use points earned / points possible instead of correct questions.";
+  }, [output.pct]);
 
   return (
     <div className="space-y-7">
@@ -38,7 +55,11 @@ export function TestScorePercentageCalculator() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard label="Score" value={`${output.pct.toFixed(1)}%`} accent />
-        <ResultCard label="Incorrect" value={`${Math.max(Number(total) - Number(correct), 0)}`} />
+        <ResultCard label="Incorrect" value={`${output.incorrect.toFixed(0)}`} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+        {resultExplanation}
       </div>
     </div>
   );
