@@ -49,12 +49,12 @@ export function ShareButtons({ className, title, urlPath, shareText }: ShareButt
   }, [absoluteUrl, text, title]);
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-2", className)}>
-      <Button type="button" variant="outline" onClick={handleCopy} className="gap-2">
+    <div className={cn("flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center", className)}>
+      <Button type="button" variant="outline" onClick={handleCopy} size="lg" className="w-full gap-2 sm:w-auto">
         <Link2 className="h-4 w-4" />
         {copied ? "Copied" : "Copy link"}
       </Button>
-      <Button type="button" variant="outline" onClick={handleShare} className="gap-2">
+      <Button type="button" variant="outline" onClick={handleShare} size="lg" className="w-full gap-2 sm:w-auto">
         <Share2 className="h-4 w-4" />
         Share
       </Button>

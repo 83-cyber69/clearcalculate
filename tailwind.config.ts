@@ -14,10 +14,13 @@ const config: Config = {
         foreground: "#0f172a",
         muted: "#f8fafc",
         brand: {
-          orange: "#ff6a00"
+          orange: "#ff6a00",
+          orangeHover: "#ff7a1a",
+          orangeSoft: "#fff3e8",
+          orangeSoftBorder: "#ffd8bf"
         },
         primary: {
-          DEFAULT: "#2563eb",
+          DEFAULT: "#ff6a00",
           foreground: "#ffffff"
         },
         border: "#e2e8f0",

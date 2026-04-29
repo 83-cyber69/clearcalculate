@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, X, Search } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { calculatorItems, categoryRegistry, getFeaturedCalculators } from "@/lib/calculators";
 import { cn } from "@/lib/utils";
+import { NavSearchBar } from "@/components/search/nav-search";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const featuredCalculators = getFeaturedCalculators();
   const groupedItems = {
@@ -20,19 +22,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-md">
-      <div className="container-max flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="text-lg font-semibold tracking-tight text-slate-900">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between gap-4">
+        <Link href="/" className="shrink-0 text-lg font-semibold tracking-tight text-slate-900">
           <span className="mr-0.5">Clear</span>
           <span className="text-brand-orange">Calculate</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm text-slate-600 md:flex">
-          <Link href="/" className="transition-colors hover:text-blue-700">
+          <Link href="/" className="transition-colors hover:text-orange-700">
             Home
           </Link>
           <div className="relative">
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-orange-50 hover:text-blue-700"
+              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-orange-50 hover:text-orange-700"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               Calculators
@@ -108,15 +110,37 @@ export function Header() {
               </div>
             </div>
           </div>
-          <Link href="/#about" className="transition-colors hover:text-blue-700">
+          <Link href="/#about" className="transition-colors hover:text-orange-700">
             About
           </Link>
         </nav>
-        <div className="hidden sm:block">
+
+        <div className="hidden md:flex flex-1 justify-center">
+          <NavSearchBar
+            className="w-full max-w-[420px]"
+            dropdownAlign="left"
+            placeholder="Search calculators..."
+          />
+        </div>
+
+        <div className="hidden sm:block shrink-0">
           <Link href="/gpa-calculator" className={`inline-flex ${buttonVariants({ variant: "outline" })}`}>
             Try Calculator
           </Link>
         </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setMobileSearchOpen((prev) => !prev);
+            setMobileOpen(false);
+          }}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 md:hidden"
+          aria-label="Toggle search"
+        >
+          <Search className="h-5 w-5" />
+        </button>
+
         <button
           type="button"
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -127,33 +151,48 @@ export function Header() {
         </button>
       </div>
 
+      {mobileSearchOpen ? (
+        <div className="border-t border-slate-200/70 bg-white/80 backdrop-blur-md md:hidden">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
+            <NavSearchBar
+              className="w-full"
+              dropdownAlign="left"
+              autoFocus
+              placeholder="Search calculators..."
+              onNavigate={() => setMobileSearchOpen(false)}
+              inputClassName="h-12 text-base"
+            />
+          </div>
+        </div>
+      ) : null}
+
       <div className="border-t border-slate-200/70 bg-white/70 md:hidden">
-        <div className="container-max overflow-x-auto py-2">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 overflow-x-auto py-2">
           <div className="flex w-max items-center gap-2">
             <Link
               href="/education"
-              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-800 active:scale-[0.98]"
               onClick={() => setMobileOpen(false)}
             >
               Education
             </Link>
             <Link
               href="/finance"
-              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-800 active:scale-[0.98]"
               onClick={() => setMobileOpen(false)}
             >
               Finance
             </Link>
             <Link
               href="/health"
-              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 active:scale-[0.98]"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-800 active:scale-[0.98]"
               onClick={() => setMobileOpen(false)}
             >
               Health
             </Link>
             <Link
               href="/calculators"
-              className="whitespace-nowrap rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700 active:scale-[0.98]"
+              className="whitespace-nowrap rounded-full border border-orange-200 bg-orange-50 px-4 py-2.5 text-sm font-medium text-orange-700 active:scale-[0.98]"
               onClick={() => setMobileOpen(false)}
             >
               All
@@ -163,42 +202,42 @@ export function Header() {
       </div>
 
       {mobileOpen ? (
-        <div className="container-max border-t border-slate-200 py-4 md:hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 border-t border-slate-200 py-4 md:hidden">
           <div className="space-y-2 text-sm text-slate-700">
-            <Link href="/" className="block rounded-lg px-3 py-2 hover:bg-orange-50" onClick={() => setMobileOpen(false)}>
+            <Link href="/" className="block rounded-lg px-3 py-3 hover:bg-orange-50" onClick={() => setMobileOpen(false)}>
               Home
             </Link>
             <Link
               href="/calculators"
-              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              className="block rounded-lg px-3 py-3 hover:bg-orange-50"
               onClick={() => setMobileOpen(false)}
             >
               All Calculators
             </Link>
             <Link
               href="/education"
-              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              className="block rounded-lg px-3 py-3 hover:bg-orange-50"
               onClick={() => setMobileOpen(false)}
             >
               Education
             </Link>
             <Link
               href="/finance"
-              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              className="block rounded-lg px-3 py-3 hover:bg-orange-50"
               onClick={() => setMobileOpen(false)}
             >
               Finance
             </Link>
             <Link
               href="/health"
-              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              className="block rounded-lg px-3 py-3 hover:bg-orange-50"
               onClick={() => setMobileOpen(false)}
             >
               Health
             </Link>
             <Link
               href="/#about"
-              className="block rounded-lg px-3 py-2 hover:bg-orange-50"
+              className="block rounded-lg px-3 py-3 hover:bg-orange-50"
               onClick={() => setMobileOpen(false)}
             >
               About

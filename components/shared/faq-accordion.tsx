@@ -21,10 +21,10 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
       {items.map((item, index) => {
         const open = openIndex === index;
         return (
-          <div key={item.question} className="glass-card overflow-hidden hover:border-blue-200">
+          <div key={item.question} className="glass-card overflow-hidden hover:border-orange-200">
             <button
               type="button"
-              className="flex w-full items-center justify-between p-5 text-left transition-colors hover:bg-blue-50/40"
+              className="flex w-full items-center justify-between p-5 text-left transition-colors hover:bg-orange-50/40"
               onClick={() => setOpenIndex(open ? null : index)}
             >
               <span className="font-medium text-slate-900">{item.question}</span>

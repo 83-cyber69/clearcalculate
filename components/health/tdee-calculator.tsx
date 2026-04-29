@@ -183,17 +183,17 @@ export function TdeeCalculator() {
         <ResultCard label="Bulking Calories" value={calories(output.bulking)} />
       </div>
 
-      <Card className="bg-gradient-to-r from-emerald-50 via-blue-50 to-orange-50">
+      <Card className="bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50">
         <CardContent className="grid gap-4 py-6 md:grid-cols-3">
-          <div className="rounded-xl border border-emerald-200 bg-white p-4">
-            <p className="mb-1 flex items-center gap-2 text-sm font-medium text-emerald-700">
+          <div className="rounded-xl border border-orange-200 bg-white p-4">
+            <p className="mb-1 flex items-center gap-2 text-sm font-medium text-orange-700">
               <Target className="h-4 w-4" />
               Goal Calories
             </p>
             <p className="text-xl font-semibold text-slate-900">{calories(output.targetCalories)}</p>
           </div>
-          <div className="rounded-xl border border-blue-200 bg-white p-4">
-            <p className="mb-1 flex items-center gap-2 text-sm font-medium text-blue-700">
+          <div className="rounded-xl border border-orange-200 bg-white p-4">
+            <p className="mb-1 flex items-center gap-2 text-sm font-medium text-orange-700">
               <Salad className="h-4 w-4" />
               Macro Recommendation
             </p>

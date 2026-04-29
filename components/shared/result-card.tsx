@@ -12,7 +12,7 @@ export const ResultCard = memo(function ResultCard({ label, value, accent = fals
     <Card
       className={
         accent
-          ? "bg-gradient-to-br from-white via-orange-50/80 to-blue-50/80 transition-all duration-300"
+          ? "bg-gradient-to-br from-white via-orange-50/80 to-amber-50/70 transition-all duration-300"
           : ""
       }
     >

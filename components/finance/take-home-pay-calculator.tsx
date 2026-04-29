@@ -317,11 +317,11 @@ export function TakeHomePayCalculator() {
         {resultExplanation}
       </div>
 
-      <Card className="bg-gradient-to-br from-white via-blue-50/60 to-orange-50/60">
+      <Card className="bg-gradient-to-br from-white via-orange-50/60 to-amber-50/50">
         <CardContent className="grid gap-6 py-8 md:grid-cols-3">
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-700">
-              <Shield className="h-5 w-5 text-blue-600" />
+              <Shield className="h-5 w-5 text-orange-600" />
               Taxes
             </p>
             <p className="text-2xl font-semibold text-slate-900">{formatCurrency(results.estimatedTaxes)}</p>
@@ -335,7 +335,7 @@ export function TakeHomePayCalculator() {
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-700">
-              <DollarSign className="h-5 w-5 text-emerald-600" />
+              <DollarSign className="h-5 w-5 text-orange-600" />
               Health Insurance
             </p>
             <p className="text-2xl font-semibold text-slate-900">{formatCurrency(results.healthInsuranceYearly)}</p>

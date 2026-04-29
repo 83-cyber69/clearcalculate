@@ -205,7 +205,7 @@ export function GpaCalculator() {
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-to-br from-white via-blue-50/60 to-orange-50/70 transition-all duration-300 hover:-translate-y-1">
+      <Card className="bg-gradient-to-br from-white via-orange-50/60 to-amber-50/60 transition-all duration-300 hover:-translate-y-1">
         <CardContent className="grid gap-4 py-6 sm:grid-cols-3">
           <div>
             <p className="text-xs uppercase tracking-wide text-slate-500">GPA Result</p>
@@ -217,7 +217,7 @@ export function GpaCalculator() {
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-slate-500">Weighted GPA</p>
-            <p className="text-3xl font-semibold tracking-tight text-blue-700">{totals.weightedGpa.toFixed(2)}</p>
+            <p className="text-3xl font-semibold tracking-tight text-orange-700">{totals.weightedGpa.toFixed(2)}</p>
           </div>
         </CardContent>
       </Card>

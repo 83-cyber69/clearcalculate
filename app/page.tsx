@@ -80,11 +80,11 @@ export default function HomePage() {
         })}
       </Script>
 
-      <section className="container-max hero-first-screen py-16 sm:py-20 md:py-24">
-        <div className="w-full space-y-10 sm:space-y-14 md:space-y-16">
-          <div className="mx-auto max-w-4xl text-center space-y-8">
+      <section className="container-max hero-first-screen py-10 sm:py-12 md:py-14">
+        <div className="w-full space-y-8 sm:space-y-10 md:space-y-12">
+          <div className="mx-auto max-w-4xl text-center space-y-6">
             <div className="mb-4">
-              <p className="inline-flex rounded-full border border-orange-200 bg-gradient-to-r from-orange-50 via-rose-50 to-blue-50 px-3 py-1 text-xs font-medium text-orange-600">
+              <p className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
                 Fast, free, and accurate calculators
               </p>
             </div>
@@ -112,8 +112,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="categories" className="container-max py-14 sm:py-16">
-        <div className="mb-10 text-center">
+      <section id="categories" className="container-max py-12 sm:py-14">
+        <div className="mb-8 text-center">
           <h2 className="section-title">Browse by Category</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
@@ -132,12 +132,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="featured-calculator" className="container-max py-14 sm:py-16">
+      <section id="featured-calculator" className="container-max py-12 sm:py-14">
         <HeroGpaFocus />
       </section>
 
-      <section id="featured" className="container-max py-14 sm:py-16">
-        <div className="mb-10 text-center">
+      <section id="featured" className="container-max py-12 sm:py-14">
+        <div className="mb-8 text-center">
           <h2 className="section-title">Featured Calculators</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
@@ -158,7 +158,7 @@ export default function HomePage() {
         <AdSlot variant="in-content" />
       </section>
 
-      <section id="about" className="container-max py-14 sm:py-16">
+      <section id="about" className="container-max py-12 sm:py-14">
         <div className="glass-card accent-warm p-8 sm:p-10">
           <h2 className="section-title">
             About <span className="mr-0.5">Clear</span>
@@ -171,8 +171,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="faq" className="container-max py-14 sm:py-16">
-        <h2 className="mb-10 section-title">Frequently Asked Questions</h2>
+      <section id="faq" className="container-max py-12 sm:py-14">
+        <h2 className="mb-8 section-title">Frequently Asked Questions</h2>
         <FAQAccordion items={faqItems} />
       </section>
     </div>

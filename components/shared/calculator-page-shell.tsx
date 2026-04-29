@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { EmailCaptureCard } from "@/components/monetization/EmailCaptureCard";
 
@@ -49,6 +50,28 @@ export function CalculatorPageShell({
 
             <div className="space-y-10">
               <AdSlot variant="in-content" />
+              <div className="glass-card p-6 sm:p-8">
+                <h2 className="section-title">Recommended next steps</h2>
+                <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+                  <p>
+                    After you get your result, compare a few scenarios or explore related tools.
+                  </p>
+                  <div className="grid gap-2">
+                    <Link href="/calculators" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Browse all calculators
+                    </Link>
+                    <Link href="/health" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Health calculators
+                    </Link>
+                    <Link href="/finance" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Finance calculators
+                    </Link>
+                    <Link href="/education" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+                      Education calculators
+                    </Link>
+                  </div>
+                </div>
+              </div>
               {seoContent}
               <AdSlot variant="in-content" />
             </div>

@@ -87,10 +87,10 @@ export default function FinancePage() {
       <Script id="finance-faq-schema" type="application/ld+json">
         {JSON.stringify(createFaqJsonLd(faqItems))}
       </Script>
-      <section className="container-max hero-first-screen py-4 sm:py-6 md:py-8">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 hero-first-screen py-4 sm:py-6 md:py-7">
         <div className="w-full space-y-5 sm:space-y-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-green-200 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 px-3 py-1 text-xs font-semibold text-green-700">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-700">
               <Landmark className="h-3 w-3" />
               Finance Tools
             </div>
@@ -98,31 +98,66 @@ export default function FinancePage() {
               Financial Planning & Budget Calculators
             </h1>
             <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-              Make informed financial decisions with our free calculators. Estimate take-home pay, 
-              plan budgets, and understand your finances better.
-            </p>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600">
-              Browse all tools on the {" "}
-              <Link href="/" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
-                ClearCalculate homepage
-              </Link>
-              {" "}
-              or explore the
-              {" "}
-              <Link href="/calculators" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
-                full calculator directory
-              </Link>
-              .
+              Estimate take-home pay, compare loans, and model long-term growth in minutes.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="mx-auto max-w-2xl">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
+        {financeCalculators.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch auto-rows-fr">
+            {financeCalculators.slice(0, 3).map((calculator) => (
+              <CalculatorCard
+                key={calculator.id}
+                title={calculator.name}
+                description={calculator.description}
+                href={`/${calculator.slug}`}
+                icon={calculator.icon}
+                ctaLabel="Calculate"
+              />
+            ))}
+            <AdSlot variant="in-content" />
+            {financeCalculators.slice(3).map((calculator) => (
+              <CalculatorCard
+                key={calculator.id}
+                title={calculator.name}
+                description={calculator.description}
+                href={`/${calculator.slug}`}
+                icon={calculator.icon}
+                ctaLabel="Calculate"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Landmark className="mx-auto h-12 w-12 text-slate-300 mb-4" />
+            <h3 className="text-lg font-medium text-slate-900 mb-2">Coming Soon</h3>
+            <p className="text-slate-600">We're working on more finance calculators. Check back soon!</p>
+          </div>
+        )}
+
+        <div className="mt-8 grid gap-4 md:grid-cols-[minmax(0,1fr)_320px] md:items-center">
+          <div className="text-sm text-slate-600">
+            Browse all tools on the {" "}
+            <Link href="/" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+              ClearCalculate homepage
+            </Link>
+            {" "}
+            or explore the
+            {" "}
+            <Link href="/calculators" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+              full calculator directory
+            </Link>
+            .
+          </div>
+          <div className="md:justify-self-end w-full max-w-2xl">
             <SmartSearch />
           </div>
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
           <div className="space-y-8">
             <article className="glass-card p-6 sm:p-8">
@@ -284,46 +319,7 @@ export default function FinancePage() {
         </div>
       </section>
 
-      <section className="container-max py-12">
-        <div className="mb-7">
-          <h2 className="section-title">Finance Calculators</h2>
-          <p className="section-lead">Tools to help you make smarter financial decisions and plan your budget.</p>
-        </div>
-        
-        {financeCalculators.length > 0 ? (
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {financeCalculators.slice(0, 3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-            <AdSlot variant="in-content" />
-            {financeCalculators.slice(3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Landmark className="mx-auto h-12 w-12 text-slate-300 mb-4" />
-            <h3 className="text-lg font-medium text-slate-900 mb-2">Coming Soon</h3>
-            <p className="text-slate-600">We're working on more finance calculators. Check back soon!</p>
-          </div>
-        )}
-      </section>
-
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="glass-card accent-warm p-8 sm:p-10">
           <h2 className="section-title">Why Choose Our Finance Tools</h2>
           <div className="mt-6 grid gap-6 md:grid-cols-3">
@@ -343,7 +339,7 @@ export default function FinancePage() {
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="mb-7 section-title">Related Categories</h2>
         <div className="grid gap-5 md:grid-cols-2">
           {categoryRegistry
@@ -374,7 +370,7 @@ export default function FinancePage() {
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="mb-7 section-title">Frequently Asked Questions</h2>
         <FAQAccordion items={faqItems} />
       </section>

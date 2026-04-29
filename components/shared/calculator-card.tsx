@@ -27,10 +27,10 @@ export function CalculatorCard({
             <Icon className="h-6 w-6" />
           </span>
         ) : null}
-        <CardTitle className="text-slate-900 transition-colors group-hover:text-orange-600">{title}</CardTitle>
+        <CardTitle className="text-slate-900 transition-colors group-hover:text-orange-600 break-words">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="mb-6 text-sm leading-6 text-slate-600">{description}</p>
+        <p className="mb-6 text-sm leading-6 text-slate-600 break-words">{description}</p>
         <Link href={href}>
           <Button variant="outline" className="inline-flex items-center gap-2 transition-colors group-hover:bg-orange-50 group-hover:border-orange-200 group-hover:text-orange-600">
             {ctaLabel} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

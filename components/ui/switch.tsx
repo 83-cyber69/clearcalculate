@@ -19,7 +19,7 @@ export function Switch({ checked, onCheckedChange, id, className }: SwitchProps)
       onClick={() => onCheckedChange(!checked)}
       className={cn(
         "relative inline-flex h-6 w-11 items-center rounded-full border border-slate-200 shadow-sm transition-colors duration-200",
-        checked ? "bg-gradient-to-r from-blue-500 to-blue-600" : "bg-slate-200",
+        checked ? "bg-brand-orange" : "bg-slate-200",
         className
       )}
     >

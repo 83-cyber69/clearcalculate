@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Activity, Calculator, GraduationCap, Landmark } from "lucide-react";
+import { Activity, Calculator, CalendarDays, Dumbbell, Flame, GraduationCap, Landmark, Ruler } from "lucide-react";
 
 export type CalculatorCategory = "Education" | "Finance" | "Health";
 
@@ -15,6 +15,32 @@ export type CalculatorItem = {
   componentPath?: string;
 };
 
+export type CalculatorInputField = {
+  key: string;
+  label: string;
+  type: "number" | "text" | "select" | "date";
+  unitLabel?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  options?: { value: string; label: string }[];
+};
+
+export type CalculatorInputsSchema = {
+  fields: CalculatorInputField[];
+};
+
+export type CalculatorFaqItem = { question: string; answer: string };
+
+export type CalculatorDefinition = CalculatorItem & {
+  inputsSchema?: CalculatorInputsSchema;
+  relatedSlugs?: string[];
+  faqItems?: CalculatorFaqItem[];
+  explanation?: string;
+  examples?: string;
+  tip?: string;
+};
+
 export type CategoryItem = {
   title: CalculatorCategory;
   description: string;
@@ -22,7 +48,7 @@ export type CategoryItem = {
   slug: string;
 };
 
-export const calculatorRegistry: CalculatorItem[] = [
+export const calculatorRegistry: CalculatorDefinition[] = [
   {
     id: "gpa-calculator",
     name: "GPA Calculator",
@@ -99,6 +125,82 @@ export const calculatorRegistry: CalculatorItem[] = [
     keywords: ["sat", "math", "reading", "writing", "score"],
     featured: false,
     componentPath: "@/components/calculators/education/sat-score-calculator"
+  },
+  {
+    id: "bmr-calculator",
+    name: "BMR Calculator",
+    slug: "bmr-calculator",
+    category: "Health",
+    description: "Estimate basal metabolic rate (resting calories) using Mifflin-St Jeor.",
+    icon: Flame,
+    keywords: [
+      "bmr",
+      "basal metabolic rate",
+      "resting metabolic rate",
+      "rmr",
+      "metabolism",
+      "calories at rest",
+      "mifflin st jeor"
+    ],
+    featured: true,
+    componentPath: "@/components/health/bmr-calculator"
+  },
+  {
+    id: "bmi-calculator",
+    name: "BMI Calculator",
+    slug: "bmi-calculator",
+    category: "Health",
+    description: "Calculate BMI (body mass index) and category from height and weight.",
+    icon: Ruler,
+    keywords: [
+      "bmi",
+      "body mass index",
+      "bmi calculator",
+      "healthy bmi",
+      "bmi range",
+      "height weight",
+      "underweight",
+      "overweight"
+    ],
+    featured: true,
+    componentPath: "@/components/health/bmi-calculator"
+  },
+  {
+    id: "one-rep-max-calculator",
+    name: "One Rep Max Calculator",
+    slug: "one-rep-max-calculator",
+    category: "Health",
+    description: "Estimate 1RM from weight and reps using common formulas.",
+    icon: Dumbbell,
+    keywords: [
+      "one rep max",
+      "1rm",
+      "one rep max calculator",
+      "strength",
+      "epley",
+      "brzycki",
+      "training percentages"
+    ],
+    featured: false,
+    componentPath: "@/components/health/one-rep-max-calculator"
+  },
+  {
+    id: "period-calculator",
+    name: "Period Calculator",
+    slug: "period-calculator",
+    category: "Health",
+    description: "Estimate next period, ovulation, and fertile window from cycle length.",
+    icon: CalendarDays,
+    keywords: [
+      "period calculator",
+      "menstrual cycle",
+      "next period",
+      "ovulation",
+      "fertile window",
+      "cycle length"
+    ],
+    featured: false,
+    componentPath: "@/components/health/period-calculator"
   },
   {
     id: "study-time-calculator",
@@ -289,7 +391,12 @@ export const categoryItems = categoryRegistry.map(({ title, description, icon })
 }));
 
 export const getCalculatorsByCategory = (category: CalculatorCategory) => {
-  return calculatorRegistry.filter(calc => calc.category === category);
+  return calculatorRegistry
+    .filter((calc) => calc.category === category)
+    .sort((a, b) => {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
 };
 
 export const getFeaturedCalculators = () => {
@@ -311,8 +418,87 @@ export const searchCalculators = (query: string) => {
   });
 };
 
+const normalizeSearchText = (value: string) => value.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+
+const scoreMatch = (haystack: string, needle: string) => {
+  if (!needle) return 0;
+  if (!haystack) return 0;
+  if (haystack === needle) return 100;
+  if (haystack.startsWith(needle)) return 70;
+  if (haystack.includes(needle)) return 45;
+  return 0;
+};
+
+export const searchCalculatorsRanked = (query: string, limit = 10) => {
+  const q = normalizeSearchText(query);
+  if (!q) return [];
+
+  const tokens = q.split(" ").filter(Boolean);
+
+  const scored = calculatorRegistry
+    .map((calc) => {
+      const name = normalizeSearchText(calc.name);
+      const desc = normalizeSearchText(calc.description);
+      const category = normalizeSearchText(calc.category);
+      const keywords = calc.keywords.map(normalizeSearchText);
+
+      let score = 0;
+
+      score += scoreMatch(name, q) * 2;
+      score += scoreMatch(desc, q);
+      score += scoreMatch(category, q);
+      score += keywords.some((k) => k === q) ? 60 : 0;
+      score += keywords.some((k) => k.includes(q)) ? 35 : 0;
+
+      for (const t of tokens) {
+        score += scoreMatch(name, t) * 3;
+        score += scoreMatch(desc, t);
+        score += scoreMatch(category, t);
+        score += keywords.some((k) => k.includes(t)) ? 18 : 0;
+      }
+
+      return { calc, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((x) => x.calc);
+
+  return scored;
+};
+
 export function getCalculatorBySlug(slug: string) {
   return calculatorRegistry.find((calc) => calc.slug === slug);
+}
+
+export type CalculatorInternalLink = {
+  href: string;
+  label: string;
+};
+
+export function getCalculatorInternalLinks(slug: string, count = 3): CalculatorInternalLink[] {
+  const current = getCalculatorBySlug(slug);
+  if (!current) return [];
+
+  const relatedSlugs = (current.relatedSlugs ?? []).filter((s) => s && s !== slug);
+  const fromRelated = relatedSlugs
+    .map((s) => getCalculatorBySlug(s))
+    .filter((x): x is CalculatorDefinition => Boolean(x))
+    .slice(0, count)
+    .map((calc) => ({ href: `/${calc.slug}`, label: calc.name }));
+
+  if (fromRelated.length >= count) return fromRelated;
+
+  const fallback = calculatorRegistry
+    .filter((calc) => calc.slug !== slug && calc.category === current.category)
+    .sort((a, b) => {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    })
+    .slice(0, Math.max(count - fromRelated.length, 0))
+    .map((calc) => ({ href: `/${calc.slug}`, label: calc.name }));
+
+  return [...fromRelated, ...fallback].slice(0, count);
 }
 
 export function getRelatedCalculators(slug: string, count = 2) {

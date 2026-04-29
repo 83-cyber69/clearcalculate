@@ -136,7 +136,7 @@ export function UnitInput({
             className={cn(
               "px-3 py-1.5 text-xs font-semibold",
               unitSystem === "metric"
-                ? "bg-slate-900 text-white"
+                ? "bg-orange-50 text-orange-800"
                 : "text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200"
             )}
           >
@@ -148,7 +148,7 @@ export function UnitInput({
             className={cn(
               "px-3 py-1.5 text-xs font-semibold",
               unitSystem === "imperial"
-                ? "bg-slate-900 text-white"
+                ? "bg-orange-50 text-orange-800"
                 : "text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200"
             )}
           >

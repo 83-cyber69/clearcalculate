@@ -87,10 +87,10 @@ export default function HealthPage() {
       <Script id="health-faq-schema" type="application/ld+json">
         {JSON.stringify(createFaqJsonLd(faqItems))}
       </Script>
-      <section className="container-max hero-first-screen py-4 sm:py-6 md:py-8">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 hero-first-screen py-4 sm:py-6 md:py-7">
         <div className="w-full space-y-5 sm:space-y-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-red-200 bg-gradient-to-r from-red-50 via-rose-50 to-pink-50 px-3 py-1 text-xs font-semibold text-red-700">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-700">
               <Activity className="h-3 w-3" />
               Health Tools
             </div>
@@ -98,31 +98,66 @@ export default function HealthPage() {
               Health & Fitness Calculators
             </h1>
             <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-              Calculate your TDEE, plan nutrition, and reach your fitness goals with our 
-              science-based health calculators. Free and instant results.
-            </p>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600">
-              Browse all tools on the {" "}
-              <Link href="/" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
-                ClearCalculate homepage
-              </Link>
-              {" "}
-              or explore the
-              {" "}
-              <Link href="/calculators" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
-                full calculator directory
-              </Link>
-              .
+              Estimate maintenance calories, set a realistic deficit, and track progress with clear numbers.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="mx-auto max-w-2xl">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
+        {healthCalculators.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch auto-rows-fr">
+            {healthCalculators.slice(0, 3).map((calculator) => (
+              <CalculatorCard
+                key={calculator.id}
+                title={calculator.name}
+                description={calculator.description}
+                href={`/${calculator.slug}`}
+                icon={calculator.icon}
+                ctaLabel="Calculate"
+              />
+            ))}
+            <AdSlot variant="in-content" />
+            {healthCalculators.slice(3).map((calculator) => (
+              <CalculatorCard
+                key={calculator.id}
+                title={calculator.name}
+                description={calculator.description}
+                href={`/${calculator.slug}`}
+                icon={calculator.icon}
+                ctaLabel="Calculate"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Activity className="mx-auto h-12 w-12 text-slate-300 mb-4" />
+            <h3 className="text-lg font-medium text-slate-900 mb-2">Coming Soon</h3>
+            <p className="text-slate-600">We're working on more health calculators. Check back soon!</p>
+          </div>
+        )}
+
+        <div className="mt-8 grid gap-4 md:grid-cols-[minmax(0,1fr)_320px] md:items-center">
+          <div className="text-sm text-slate-600">
+            Browse all tools on the {" "}
+            <Link href="/" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+              ClearCalculate homepage
+            </Link>
+            {" "}
+            or explore the
+            {" "}
+            <Link href="/calculators" className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600">
+              full calculator directory
+            </Link>
+            .
+          </div>
+          <div className="md:justify-self-end w-full max-w-2xl">
             <SmartSearch />
           </div>
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
           <div className="space-y-8">
             <article className="glass-card p-6 sm:p-8">
@@ -267,46 +302,7 @@ export default function HealthPage() {
         </div>
       </section>
 
-      <section className="container-max py-12">
-        <div className="mb-7">
-          <h2 className="section-title">Health & Fitness Calculators</h2>
-          <p className="section-lead">Science-based tools to help you achieve your wellness and fitness goals.</p>
-        </div>
-        
-        {healthCalculators.length > 0 ? (
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {healthCalculators.slice(0, 3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-            <AdSlot variant="in-content" />
-            {healthCalculators.slice(3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Activity className="mx-auto h-12 w-12 text-slate-300 mb-4" />
-            <h3 className="text-lg font-medium text-slate-900 mb-2">Coming Soon</h3>
-            <p className="text-slate-600">We're working on more health calculators. Check back soon!</p>
-          </div>
-        )}
-      </section>
-
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="glass-card accent-warm p-8 sm:p-10">
           <h2 className="section-title">Why Trust Our Health Tools</h2>
           <div className="mt-6 grid gap-6 md:grid-cols-3">
@@ -326,7 +322,7 @@ export default function HealthPage() {
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="mb-7 section-title">Related Categories</h2>
         <div className="grid gap-5 md:grid-cols-2">
           {categoryRegistry
@@ -357,7 +353,7 @@ export default function HealthPage() {
         </div>
       </section>
 
-      <section className="container-max py-14">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="mb-7 section-title">Frequently Asked Questions</h2>
         <FAQAccordion items={faqItems} />
       </section>
