@@ -7,6 +7,8 @@ import { siteConfig } from "@/lib/utils";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-STXKJDYSBG";
+// NOTE: NEXT_PUBLIC_ADSENSE_CLIENT must be set in the deployment environment (Vercel).
+// Do not rely only on .env.local - add it to your Vercel project settings.
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -54,7 +56,7 @@ export default function RootLayout({
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
             crossOrigin="anonymous"
-            strategy="beforeInteractive"
+            strategy="afterInteractive"
           />
         ) : null}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="afterInteractive" />
