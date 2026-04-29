@@ -15,7 +15,8 @@ import {
   getProgrammaticPages,
   estimateWordCount,
   isProgrammaticPageIndexable,
-  getProgrammaticClusterLinks
+  getProgrammaticClusterLinks,
+  getProgrammaticClusterHubLink
 } from "@/lib/programmatic-pages";
 import { createBreadcrumbJsonLd, createFaqJsonLd, createWebApplicationJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/utils";
@@ -66,6 +67,8 @@ export default async function ProgrammaticLandingPage({ params }: { params: Prom
   const indexable = isProgrammaticPageIndexable(page.slug);
   const wc = estimateWordCount(page);
 
+  const kind = page.kind === "hub" ? "hub" : "guide";
+
   const webApplicationJsonLd = createWebApplicationJsonLd({
     name: page.h1,
     description: page.description,
@@ -82,10 +85,15 @@ export default async function ProgrammaticLandingPage({ params }: { params: Prom
 
   const internalLinks = getCalculatorInternalLinks(page.calculatorSlug, 3);
   const clusterLinks = getProgrammaticClusterLinks(page.slug, 4);
+  const hubLink = getProgrammaticClusterHubLink(page.slug);
+  const hubChildren =
+    kind === "hub"
+      ? getProgrammaticPages().filter((p) => p.kind !== "hub" && p.cluster === page.cluster)
+      : [];
 
   return (
     <CalculatorPageShell
-      hero={<CalculatorHero eyebrow={`${page.category} Guide`} title={page.h1} />}
+      hero={<CalculatorHero eyebrow={kind === "hub" ? `${page.category} Guide Hub` : `${page.category} Guide`} title={page.h1} />}
       calculator={
         <>
           <Script id={`p-${page.slug}-webapplication-schema`} type="application/ld+json">
@@ -153,6 +161,28 @@ export default async function ProgrammaticLandingPage({ params }: { params: Prom
             </div>
           </article>
 
+          {kind === "hub" ? (
+            <article className="glass-card p-6 sm:p-8">
+              <h2 className="section-title">Browse guides in this hub</h2>
+              <div className="mt-4 grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+                <p>
+                  Open a specific guide to match your scenario:
+                </p>
+                <div className="grid gap-2">
+                  {hubChildren.map((child) => (
+                    <Link
+                      key={child.slug}
+                      href={`/p/${child.slug}`}
+                      className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600"
+                    >
+                      {child.h1}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ) : null}
+
           <article id="example" className="glass-card p-6 sm:p-8 scroll-mt-24">
             <h2 className="section-title">Example</h2>
             <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
@@ -196,6 +226,15 @@ export default async function ProgrammaticLandingPage({ params }: { params: Prom
                   Explore more guides with the same intent:
                 </p>
                 <div className="grid gap-2">
+                  {hubLink ? (
+                    <Link
+                      key={hubLink.href}
+                      href={hubLink.href}
+                      className="font-medium text-slate-900 underline underline-offset-4 hover:text-orange-600"
+                    >
+                      {hubLink.label}
+                    </Link>
+                  ) : null}
                   {clusterLinks.map((item) => (
                     <Link
                       key={item.href}

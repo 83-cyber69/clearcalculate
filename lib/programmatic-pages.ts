@@ -3,12 +3,17 @@ import { getCalculatorBySlug, type CalculatorFaqItem, type CalculatorCategory } 
 export type ProgrammaticPageCluster =
   | "education-grade-needed"
   | "education-gpa-college"
+  | "education-weighted-vs-unweighted"
   | "finance-loan-payment"
   | "finance-salary-after-tax"
+  | "finance-salary-after-tax-state"
+  | "finance-compound-interest-scenario"
   | "health-calorie-deficit"
+  | "health-calories-to-lose-weight"
   | "health-bmr-vs-tdee";
 
 export type ProgrammaticPageDefinition = {
+  kind?: "guide" | "hub";
   slug: string;
   title: string;
   description: string;
@@ -38,6 +43,18 @@ export function estimateWordCount(page: ProgrammaticPageDefinition) {
   return pieces.flatMap(clampWords).length;
 }
 
+const normalizeSearchText = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+
+const scoreMatch = (haystack: string, needle: string) => {
+  if (!needle) return 0;
+  if (!haystack) return 0;
+  if (haystack === needle) return 100;
+  if (haystack.startsWith(needle)) return 70;
+  if (haystack.includes(needle)) return 45;
+  return 0;
+};
+
 function pick<T>(seed: string, options: T[]): T {
   const s = seed.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
   return options[Math.abs(s) % options.length];
@@ -60,6 +77,65 @@ const COMMON_COURSES = ["algebra", "biology", "chemistry", "geometry", "history"
 const COMMON_SALARIES = [45000, 60000, 80000, 100000, 120000] as const;
 const COMMON_LOANS = [150000, 250000, 300000, 400000] as const;
 const COMMON_RATES = [4.5, 5.5, 6.0, 6.5] as const;
+
+const STATES = [
+  {
+    name: "Tennessee",
+    slug: "tennessee",
+    note: "Tennessee does not tax wage income, so your state withholding may be lower than in many states."
+  },
+  {
+    name: "Texas",
+    slug: "texas",
+    note: "Texas does not have a state income tax on wages, but your take-home pay still depends on federal and payroll taxes plus benefits and deductions."
+  },
+  {
+    name: "Florida",
+    slug: "florida",
+    note: "Florida does not tax wage income, so after-tax pay is driven mostly by federal taxes, payroll taxes, and pre-tax deductions."
+  },
+  {
+    name: "California",
+    slug: "california",
+    note: "California has state income tax, so your net pay can differ meaningfully from no-income-tax states at the same salary."
+  },
+  {
+    name: "New York",
+    slug: "new-york",
+    note: "New York has state income tax and some locations have local taxes as well. Your take-home pay can vary by city and deductions."
+  },
+  {
+    name: "Illinois",
+    slug: "illinois",
+    note: "Illinois has a flat state income tax rate, so your net pay changes more predictably as salary changes compared to progressive systems."
+  },
+  {
+    name: "Pennsylvania",
+    slug: "pennsylvania",
+    note: "Pennsylvania uses a flat income tax rate, but local taxes can apply depending on where you live."
+  },
+  {
+    name: "Colorado",
+    slug: "colorado",
+    note: "Colorado uses a flat income tax rate and your take-home pay will also depend on payroll taxes and benefit deductions."
+  }
+] as const;
+
+const COMPOUND_SCENARIOS = [
+  { years: 10, monthly: 200, start: 1000, rate: 7 },
+  { years: 15, monthly: 300, start: 5000, rate: 7 },
+  { years: 20, monthly: 500, start: 10000, rate: 6 },
+  { years: 25, monthly: 400, start: 2500, rate: 8 }
+] as const;
+
+const WEIGHT_LOSS_PERSONAS = [
+  { weightLb: 160, activity: "moderately active", deficit: 400 },
+  { weightLb: 180, activity: "lightly active", deficit: 350 },
+  { weightLb: 200, activity: "sedentary", deficit: 300 },
+  { weightLb: 220, activity: "moderately active", deficit: 500 },
+  { weightLb: 140, activity: "active", deficit: 300 },
+  { weightLb: 260, activity: "lightly active", deficit: 500 }
+] as const;
 
 function buildEducationGradeNeededPages(): ProgrammaticPageDefinition[] {
   return COMMON_COURSES.map((course) => {
@@ -110,6 +186,7 @@ function buildEducationGradeNeededPages(): ProgrammaticPageDefinition[] {
     ];
 
     return {
+      kind: "guide",
       slug,
       title: `What Grade Do I Need To Pass ${course[0].toUpperCase()}${course.slice(1)}? | ClearCalculate`,
       description: `Find the score you need to pass ${course}. Use your current grade, remaining weight, and passing threshold to estimate the required score.`,
@@ -122,6 +199,457 @@ function buildEducationGradeNeededPages(): ProgrammaticPageDefinition[] {
       example,
       faqItems,
       relatedCalculatorSlugs: ["final-grade-calculator", "class-average-calculator"]
+    };
+  });
+}
+
+function buildProgrammaticHubPages(): ProgrammaticPageDefinition[] {
+  const pages = getProgrammaticPagesRaw().filter((p) => p.kind !== "hub");
+
+  const byCluster = pages.reduce((acc, p) => {
+    const list = acc.get(p.cluster) ?? [];
+    list.push(p);
+    acc.set(p.cluster, list);
+    return acc;
+  }, new Map<ProgrammaticPageCluster, ProgrammaticPageDefinition[]>());
+
+  const hubs: ProgrammaticPageDefinition[] = [];
+
+  for (const [cluster, clusterPages] of byCluster.entries()) {
+    if (clusterPages.length < 4) continue;
+
+    const seed = `${cluster}-${clusterPages.length}`;
+    const category = clusterPages[0]?.category ?? "Education";
+
+    const { slug, h1, title, description, calculatorSlug } = getHubMeta(cluster);
+
+    const intro = [
+      pick(seed, [
+        "This hub collects related long-tail guides in one place so you can compare scenarios without hopping between unrelated pages.",
+        "Use this hub to find the exact guide you need, then run numbers with the embedded calculator for your own inputs.",
+        "Think of this page as a table of contents for one specific intent: the guides below answer closely related questions with slightly different assumptions."
+      ]),
+      "Each guide is intentionally focused on a single question. If you’re not sure which one applies, start with the base calculator on this page and then open 2–3 guides that match your situation.",
+      "If you’re doing planning (grades, taxes, or calories), the goal is usually to estimate the direction and magnitude of change before you commit to a specific plan."
+    ];
+
+    const explanation = [
+      pick(seed, [
+        "A good workflow is: (1) define your target, (2) list what’s fixed, (3) choose the variables you can change, and (4) test a small set of realistic scenarios.",
+        "Most planning questions are sensitive to one or two inputs. If you identify those inputs early, your estimates become more accurate with less effort.",
+        "If you get confusing results, it’s usually because one assumption is hidden (weights, deductions, activity level, compounding frequency). Write assumptions down and test them one at a time."
+      ]),
+      "Use the guide list as a shortcut to the right assumptions. For example, some pages treat a variable as fixed while others treat it as adjustable.",
+      "When you open a guide, scan the explanation section first to confirm the model matches your situation. Then run the calculator to get exact numbers.",
+      "If you’re comparing multiple outcomes, keep everything constant except the variable you’re testing. That’s the fastest way to build intuition and avoid misleading comparisons.",
+      "Finally, remember that many real-world systems have rounding rules (grades) or thresholds (tax brackets). Two scenarios that look similar can produce different outcomes near a cutoff."
+    ];
+
+    const example = [
+      "Example approach: start with your current inputs in the calculator, record the baseline result, then open two guides that match your scenario and adjust only one variable at a time.",
+      "If the result changes a lot, that variable is a lever. If it barely changes, you can stop optimizing it and focus your effort elsewhere.",
+      "Once you have a short list of realistic scenarios, you can make a plan that’s robust even if your assumptions are slightly off."
+    ];
+
+    const faqItems: CalculatorFaqItem[] = [
+      {
+        question: "Should I read every guide in this hub?",
+        answer:
+          "No—pick the 2–3 guides that match your specific situation. The purpose of the hub is to help you quickly find the closest match, not to create busywork."
+      },
+      {
+        question: "Why do similar guides sometimes give different results?",
+        answer:
+          "They often assume different inputs are fixed (or use different defaults). That’s intentional: it helps you model realistic variations without forcing one set of assumptions on everyone."
+      },
+      {
+        question: "Is the calculator on this page the same as the one on the main calculator page?",
+        answer:
+          "Yes. The embedded tool is the same calculator—this page just adds targeted guidance and internal links to help you choose the right scenario."
+      },
+      {
+        question: "Can I share a specific guide instead of the hub?",
+        answer:
+          "Yes. If you have a very specific question, sharing the exact guide is usually better. The hub is best for exploring multiple related scenarios."
+      }
+    ];
+
+    hubs.push({
+      kind: "hub",
+      slug,
+      title,
+      description,
+      calculatorSlug,
+      category,
+      cluster,
+      h1,
+      intro,
+      explanation,
+      example,
+      faqItems,
+      relatedCalculatorSlugs: clusterPages[0]?.relatedCalculatorSlugs
+    });
+  }
+
+  return hubs;
+}
+
+function getHubMeta(cluster: ProgrammaticPageCluster): {
+  slug: string;
+  h1: string;
+  title: string;
+  description: string;
+  calculatorSlug: string;
+} {
+  switch (cluster) {
+    case "education-grade-needed":
+      return {
+        slug: "grade-needed-guides",
+        h1: "Grade needed guides (pass, target grades, finals)",
+        title: "Grade Needed Guides | ClearCalculate",
+        description: "Browse focused guides for grade-needed scenarios and use the calculator to estimate the score you need to hit your target.",
+        calculatorSlug: "grade-needed-to-pass-calculator"
+      };
+    case "education-weighted-vs-unweighted":
+      return {
+        slug: "weighted-vs-unweighted-gpa-guides",
+        h1: "Weighted vs unweighted GPA guides",
+        title: "Weighted vs Unweighted GPA Guides | ClearCalculate",
+        description: "Guides for understanding weighted vs unweighted GPA and how changes in classes and grades affect your GPA estimate.",
+        calculatorSlug: "gpa-calculator"
+      };
+    case "finance-loan-payment":
+      return {
+        slug: "loan-payment-guides",
+        h1: "Loan payment guides (monthly payment scenarios)",
+        title: "Loan Payment Guides | ClearCalculate",
+        description: "Browse loan payment scenario guides and run the embedded loan payment calculator to estimate monthly payments.",
+        calculatorSlug: "loan-payment-calculator"
+      };
+    case "finance-salary-after-tax":
+      return {
+        slug: "salary-after-taxes-guides",
+        h1: "Salary after taxes guides",
+        title: "Salary After Taxes Guides | ClearCalculate",
+        description: "Guides for estimating salary after taxes and comparing scenarios using the embedded salary-after-taxes calculator.",
+        calculatorSlug: "salary-after-taxes-calculator"
+      };
+    case "finance-salary-after-tax-state":
+      return {
+        slug: "salary-after-taxes-by-state-guides",
+        h1: "Salary after taxes by state guides",
+        title: "Salary After Taxes By State Guides | ClearCalculate",
+        description: "State-focused salary after tax guides to compare take-home pay scenarios across different locations.",
+        calculatorSlug: "salary-after-taxes-calculator"
+      };
+    case "finance-compound-interest-scenario":
+      return {
+        slug: "compound-interest-guides",
+        h1: "Compound interest scenario guides",
+        title: "Compound Interest Guides | ClearCalculate",
+        description: "Scenario guides for compound interest planning—test monthly contributions, time horizons, and rate assumptions.",
+        calculatorSlug: "compound-interest-calculator"
+      };
+    case "health-calorie-deficit":
+      return {
+        slug: "calorie-deficit-guides",
+        h1: "Calorie deficit guides",
+        title: "Calorie Deficit Guides | ClearCalculate",
+        description: "Guides for choosing a calorie deficit and comparing weight-loss scenarios using the embedded calorie deficit calculator.",
+        calculatorSlug: "calorie-deficit-calculator"
+      };
+    case "health-calories-to-lose-weight":
+      return {
+        slug: "calories-to-lose-weight-guides",
+        h1: "Calories to lose weight guides",
+        title: "Calories To Lose Weight Guides | ClearCalculate",
+        description: "Guides to estimate calories to lose weight and compare scenarios using TDEE and calorie targets.",
+        calculatorSlug: "tdee-calculator"
+      };
+    case "health-bmr-vs-tdee":
+      return {
+        slug: "bmr-vs-tdee-guides",
+        h1: "BMR vs TDEE guides",
+        title: "BMR vs TDEE Guides | ClearCalculate",
+        description: "Guides explaining BMR vs TDEE and how activity level changes your daily calorie needs.",
+        calculatorSlug: "tdee-calculator"
+      };
+    case "education-gpa-college":
+    default:
+      return {
+        slug: "gpa-guides",
+        h1: "GPA guides",
+        title: "GPA Guides | ClearCalculate",
+        description: "Browse GPA-related guides and use the embedded GPA calculator to test scenarios.",
+        calculatorSlug: "gpa-calculator"
+      };
+  }
+}
+
+function buildFinanceSalaryAfterTaxStatePages(): ProgrammaticPageDefinition[] {
+  const pages: ProgrammaticPageDefinition[] = [];
+
+  for (const state of STATES) {
+    for (const salary of [60000, 80000, 100000] as const) {
+      const slug = toSlug(`salary after taxes ${state.slug} ${salary}`);
+
+      const intro = [
+        `If you’re searching for a salary-after-tax estimate in ${state.name}, remember that take-home pay depends on more than just your gross salary.`,
+        state.note,
+        `This guide gives you a practical way to think about net pay and then lets you run quick scenarios using our Salary After Taxes Calculator.`
+      ];
+
+      const explanation = [
+        pick(slug, [
+          "A useful planning approach is to start with an effective tax rate range and narrow it based on your deductions and benefits.",
+          "Net pay is shaped by federal income tax, payroll tax, and any state/local tax—plus pre-tax deductions.",
+          "To avoid misleading estimates, treat after-tax results as a range and refine it once you know your benefit deductions and filing status."
+        ]),
+        "Two people with the same salary can have very different take-home pay due to retirement contributions, health insurance premiums, and withholding choices.",
+        "If you want a paycheck-style estimate (including common deductions), use the Take Home Pay Calculator after you get a rough net estimate."
+      ];
+
+      const example = [
+        `Example: at ${formatMoney(salary)} in ${state.name}, start by testing an effective tax range like 20% to 30% and see how the yearly/monthly number changes.`,
+        "Then adjust your assumption if you contribute to a 401(k), have pre-tax insurance, or expect state/local taxes to be meaningful."
+      ];
+
+      const faqItems: CalculatorFaqItem[] = [
+        {
+          question: `Does ${state.name} have state income tax?`,
+          answer:
+            "State tax rules vary and can change. This page provides planning guidance, but your exact net depends on your specific situation and location. Use the calculator as an estimate and confirm with official sources when needed."
+        },
+        {
+          question: "Why is my net pay different from someone with the same salary?",
+          answer:
+            "Retirement contributions, health insurance, HSA/FSA, filing status, dependents, and withholding choices can all change take-home pay even at the same gross salary."
+        },
+        {
+          question: "Should I use Salary After Taxes or Take Home Pay?",
+          answer:
+            "Use Salary After Taxes for quick scenario planning with an effective tax rate. Use Take Home Pay if you want a paycheck-style breakdown with deductions."
+        },
+        {
+          question: "How should I use this for budgeting?",
+          answer:
+            "Convert your yearly net estimate to monthly, then build a baseline budget. Revisit the estimate after you see a real pay stub and adjust categories."
+        }
+      ];
+
+      pages.push({
+        slug,
+        title: `Salary After Taxes in ${state.name} for ${formatMoney(salary)} | ClearCalculate`,
+        description: `Estimate what ${formatMoney(salary)} looks like after taxes in ${state.name}. Use an effective tax rate approach and compare scenarios.`,
+        calculatorSlug: "salary-after-taxes-calculator",
+        category: "Finance",
+        cluster: "finance-salary-after-tax-state",
+        h1: `Salary after taxes in ${state.name} for ${formatMoney(salary)}`,
+        intro,
+        explanation,
+        example,
+        faqItems,
+        relatedCalculatorSlugs: ["take-home-pay-calculator", "hourly-to-salary-calculator", "salary-to-hourly-calculator"]
+      });
+    }
+  }
+
+  return pages;
+}
+
+function buildFinanceCompoundInterestScenarioPages(): ProgrammaticPageDefinition[] {
+  return COMPOUND_SCENARIOS.map((s) => {
+    const slug = toSlug(`compound interest over ${s.years} years with ${s.monthly} monthly deposits`);
+
+    const intro = [
+      `Compound interest scenarios are most useful when you include both time and contributions. This guide models ${s.years} years with monthly deposits and a simple return assumption.`,
+      "Use it to understand the moving parts (rate, time, contributions), then run your exact numbers in the Compound Interest Calculator."
+    ];
+
+    const explanation = [
+      pick(slug, [
+        "The biggest drivers are time invested and contribution consistency—rate matters, but time and behavior often matter more.",
+        "Compounding accelerates later because returns earn returns. The longer the timeline, the more dramatic the curve.",
+        "Monthly contributions smooth out investing over time and can materially increase ending value compared to a one-time deposit."
+      ]),
+      `In this scenario, you start with ${formatMoney(s.start)}, add ${formatMoney(s.monthly)} per month, and assume an annual return of about ${s.rate}%.`,
+      "The calculator lets you change contribution frequency, compounding frequency, and rate assumptions to stress-test the plan."
+    ];
+
+    const example = [
+      `Example: start with ${formatMoney(s.start)}, contribute ${formatMoney(s.monthly)} monthly for ${s.years} years, and assume ${s.rate}% annual growth.`,
+      "Run the calculator twice: once with contributions and once without. The difference shows how much of the ending value comes from behavior (contributions) versus market growth."
+    ];
+
+    const faqItems: CalculatorFaqItem[] = [
+      {
+        question: "What rate of return should I assume?",
+        answer:
+          "Use a conservative assumption for planning. Many people test a range (e.g., 5%–8%) to see how sensitive outcomes are to the rate."
+      },
+      {
+        question: "Does this account for inflation?",
+        answer:
+          "Not directly. For a real (inflation-adjusted) estimate, use a lower rate assumption that reflects expected inflation."
+      },
+      {
+        question: "What’s more important: saving more or getting a higher rate?",
+        answer:
+          "Both help, but saving consistently is usually the most controllable factor. Use the calculator to compare scenarios like +$100/month versus +1% return."
+      },
+      {
+        question: "How often should I update the estimate?",
+        answer:
+          "Revisit when your contribution level changes, your timeline changes, or once a year for planning."
+      }
+    ];
+
+    return {
+      slug,
+      title: `Compound Interest Over ${s.years} Years With Monthly Deposits | ClearCalculate`,
+      description: `See how compound interest can grow with monthly deposits over ${s.years} years. Learn the key drivers and run your exact numbers.`,
+      calculatorSlug: "compound-interest-calculator",
+      category: "Finance",
+      cluster: "finance-compound-interest-scenario",
+      h1: `Compound interest over ${s.years} years with monthly deposits`,
+      intro,
+      explanation,
+      example,
+      faqItems,
+      relatedCalculatorSlugs: ["loan-payment-calculator", "retirement-calculator"]
+    };
+  });
+}
+
+function buildEducationWeightedVsUnweightedPages(): ProgrammaticPageDefinition[] {
+  const slug = "weighted-vs-unweighted-gpa-explained";
+
+  const intro = [
+    "Weighted and unweighted GPA measure the same thing (academic performance), but they use different scales. Unweighted GPA is usually capped at 4.0, while weighted GPA adds extra points for honors/AP/IB courses.",
+    "This guide explains the difference, shows how schools commonly calculate it, and links you to the GPA Calculator to estimate both versions."
+  ];
+
+  const explanation = [
+    pick(slug, [
+      "Unweighted GPA is a simpler average: it treats an A in any class as the same weight.",
+      "Weighted GPA adds rigor points so advanced classes can raise your GPA above 4.0.",
+      "The purpose of weighted GPA is to reflect course difficulty, not just letter grades."
+    ]),
+    "The exact weighting varies by school: some add +0.5 for honors and +1.0 for AP/IB, while others use different scales.",
+    "When comparing GPAs across students or schools, always check which system is being used and whether the GPA is recalculated by the college."
+  ];
+
+  const example = [
+    "Example: two students both have all A’s, but one took standard courses and the other took mostly AP courses. Their unweighted GPA may both be 4.0, but the weighted GPA can differ.",
+    "Use the GPA Calculator to enter your classes and credits, then compare the weighted vs unweighted outputs under your school’s rules."
+  ];
+
+  const faqItems: CalculatorFaqItem[] = [
+    {
+      question: "Is weighted GPA better than unweighted GPA?",
+      answer:
+        "Neither is universally better. Unweighted is simpler; weighted adds context about rigor. Many colleges review both grades and course difficulty."
+    },
+    {
+      question: "Can weighted GPA be above 4.0?",
+      answer:
+        "Yes. Many weighted systems allow GPAs above 4.0 depending on how honors/AP/IB points are applied."
+    },
+    {
+      question: "Do colleges recalculate GPA?",
+      answer:
+        "Often, yes. Some colleges recalculate using their own rules (e.g., focusing on core courses). Use your school GPA for planning, but check each college’s policy."
+    },
+    {
+      question: "How do I improve my GPA the fastest?",
+      answer:
+        "Focus on improving grades in higher-credit or higher-weight courses, and plan ahead for upcoming graded work. Use the Final Grade Calculator and Grade Needed To Pass Calculator for tactical planning."
+    }
+  ];
+
+  return [
+    {
+      slug,
+      title: "Weighted vs Unweighted GPA Explained | ClearCalculate",
+      description:
+        "Learn the difference between weighted and unweighted GPA, how each is calculated, and how to estimate both using your course list.",
+      calculatorSlug: "gpa-calculator",
+      category: "Education",
+      cluster: "education-weighted-vs-unweighted",
+      h1: "Weighted vs unweighted GPA explained",
+      intro,
+      explanation,
+      example,
+      faqItems,
+      relatedCalculatorSlugs: ["final-grade-calculator", "grade-needed-to-pass-calculator"]
+    }
+  ];
+}
+
+function buildHealthCaloriesToLoseWeightPages(): ProgrammaticPageDefinition[] {
+  return WEIGHT_LOSS_PERSONAS.map((p) => {
+    const slug = toSlug(`how many calories should i eat to lose weight ${p.weightLb} lb`);
+
+    const intro = [
+      `If you’re asking “how many calories should I eat to lose weight?” the best starting point is to estimate maintenance calories (TDEE) and then choose a deficit you can sustain.`,
+      `This guide uses a ${p.weightLb} lb example and assumes you’re ${p.activity} to demonstrate how to turn the estimate into a daily target.`
+    ];
+
+    const explanation = [
+      pick(slug, [
+        "The most reliable way to set calories is: estimate maintenance, apply a moderate deficit, then adjust based on weekly trends.",
+        "Weight loss targets work best when you start with maintenance calories and subtract a sustainable deficit.",
+        "The calculator gives a starting estimate; consistency and adjustments over 2–3 weeks determine real-world success."
+      ]),
+      `A common starting deficit is about ${p.deficit} calories per day for this kind of scenario, but the right number depends on hunger, sleep, training, and starting body composition.`,
+      "Use the TDEE Calculator to estimate maintenance, then use the Calorie Deficit Calculator to pick a target for your goal."
+    ];
+
+    const example = [
+      `Example workflow for ${p.weightLb} lb:`,
+      "1) Estimate TDEE (maintenance).",
+      `2) Subtract about ${p.deficit} calories/day as a starting target.`,
+      "3) Track weekly average weight for 2–3 weeks.",
+      "4) If progress is too slow or too fast, adjust calories by 100–200/day and repeat."
+    ];
+
+    const faqItems: CalculatorFaqItem[] = [
+      {
+        question: "How fast should I lose weight?",
+        answer:
+          "Many people aim for about 0.5% to 1% of body weight per week. Faster rates can be harder to sustain and may impact performance and recovery."
+      },
+      {
+        question: "Should I eat the same calories every day?",
+        answer:
+          "Not necessarily. Some people prefer a consistent target; others cycle intake across training/rest days. What matters most is your weekly average and adherence."
+      },
+      {
+        question: "What if the calculator estimate is wrong for me?",
+        answer:
+          "That’s normal—these are estimates. Use the output as a starting point, then adjust based on your 2–3 week trend and how you feel."
+      },
+      {
+        question: "Do macros matter or only calories?",
+        answer:
+          "Calories drive weight change, but protein and fiber can improve satiety and muscle retention. Consider protein targets and strength training alongside calories."
+      }
+    ];
+
+    return {
+      slug,
+      title: `How Many Calories Should I Eat to Lose Weight? (${p.weightLb} lb Example) | ClearCalculate`,
+      description:
+        `Use a maintenance (TDEE) estimate and a sustainable deficit to set a calorie target. Includes a ${p.weightLb} lb example and step-by-step workflow.`,
+      calculatorSlug: "tdee-calculator",
+      category: "Health",
+      cluster: "health-calories-to-lose-weight",
+      h1: "How many calories should I eat to lose weight?",
+      intro,
+      explanation,
+      example,
+      faqItems,
+      relatedCalculatorSlugs: ["calorie-deficit-calculator", "bmr-calculator", "bmi-calculator", "body-fat-calculator"]
     };
   });
 }
@@ -388,13 +916,8 @@ let cachedPages: ProgrammaticPageDefinition[] | null = null;
 export function getProgrammaticPages(): ProgrammaticPageDefinition[] {
   if (cachedPages) return cachedPages;
 
-  const pages = [
-    ...buildEducationGradeNeededPages(),
-    ...buildFinanceLoanPaymentPages(),
-    ...buildFinanceSalaryAfterTaxPages(),
-    ...buildHealthBmrVsTdeePages(),
-    ...buildHealthCalorieDeficitPages()
-  ];
+  const raw = getProgrammaticPagesRaw();
+  const pages = [...raw, ...buildProgrammaticHubPages()];
 
   const unique: ProgrammaticPageDefinition[] = [];
   const seen = new Set<string>();
@@ -406,6 +929,20 @@ export function getProgrammaticPages(): ProgrammaticPageDefinition[] {
 
   cachedPages = unique;
   return unique;
+}
+
+function getProgrammaticPagesRaw(): ProgrammaticPageDefinition[] {
+  return [
+    ...buildEducationGradeNeededPages(),
+    ...buildEducationWeightedVsUnweightedPages(),
+    ...buildFinanceLoanPaymentPages(),
+    ...buildFinanceSalaryAfterTaxPages(),
+    ...buildFinanceSalaryAfterTaxStatePages(),
+    ...buildFinanceCompoundInterestScenarioPages(),
+    ...buildHealthBmrVsTdeePages(),
+    ...buildHealthCalorieDeficitPages(),
+    ...buildHealthCaloriesToLoseWeightPages()
+  ];
 }
 
 export function getProgrammaticPageBySlug(slug: string) {
@@ -422,9 +959,19 @@ export function getProgrammaticClusterLinks(slug: string, count = 4): Programmat
   if (!current) return [];
 
   return getProgrammaticPages()
-    .filter((p) => p.slug !== slug && p.cluster === current.cluster)
+    .filter((p) => p.slug !== slug && p.cluster === current.cluster && p.kind !== "hub")
     .slice(0, count)
     .map((p) => ({ href: `/p/${p.slug}`, label: p.h1 }));
+}
+
+export function getProgrammaticClusterHubLink(slug: string): ProgrammaticClusterLink | null {
+  const current = getProgrammaticPageBySlug(slug);
+  if (!current) return null;
+  if (current.kind === "hub") return null;
+
+  const hub = getProgrammaticPages().find((p) => p.kind === "hub" && p.cluster === current.cluster);
+  if (!hub) return null;
+  return { href: `/p/${hub.slug}`, label: hub.h1 };
 }
 
 export function isProgrammaticPageIndexable(slug: string) {
@@ -442,4 +989,62 @@ export function getIndexableProgrammaticRoutes() {
   return getProgrammaticPages()
     .filter((p) => isProgrammaticPageIndexable(p.slug))
     .map((p) => `/p/${p.slug}`);
+}
+
+export type ProgrammaticSearchItem = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  category: CalculatorCategory;
+  kind: "guide" | "hub";
+};
+
+export function searchProgrammaticPagesRanked(query: string, limit = 6): ProgrammaticSearchItem[] {
+  const q = normalizeSearchText(query);
+  if (!q) return [];
+
+  const tokens = q.split(" ").filter(Boolean);
+
+  const scored = getProgrammaticPages()
+    .map((p) => {
+      const name = normalizeSearchText(p.h1);
+      const desc = normalizeSearchText(p.description);
+      const category = normalizeSearchText(p.category);
+      const cluster = normalizeSearchText(p.cluster);
+      const kind = p.kind === "hub" ? "hub" : "guide";
+
+      let score = 0;
+      score += scoreMatch(name, q) * 2;
+      score += scoreMatch(desc, q);
+      score += scoreMatch(category, q);
+      score += scoreMatch(cluster, q) * 0.75;
+
+      for (const t of tokens) {
+        score += scoreMatch(name, t) * 3;
+        score += scoreMatch(desc, t);
+        score += scoreMatch(category, t);
+        score += scoreMatch(cluster, t);
+      }
+
+      if (kind === "hub") score += 35;
+
+      return {
+        item: {
+          id: `p-${p.slug}`,
+          slug: p.slug,
+          name: p.h1,
+          description: p.description,
+          category: p.category,
+          kind
+        } satisfies ProgrammaticSearchItem,
+        score
+      };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((x) => x.item);
+
+  return scored;
 }

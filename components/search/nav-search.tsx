@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, X, Clock, TrendingUp, ChevronRight } from "lucide-react";
+import { Search, X, Clock, TrendingUp, ChevronRight, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
@@ -11,6 +11,7 @@ import {
   searchCalculatorsRanked,
   type CalculatorItem
 } from "@/lib/calculators";
+import { searchProgrammaticPagesRanked, type ProgrammaticSearchItem } from "@/lib/programmatic-pages";
 
 const RECENT_SEARCHES_KEY = "cc_recent_calculator_searches_v1";
 const MAX_RECENT = 5;
@@ -26,6 +27,7 @@ type NavSearchBarProps = {
 
 type Suggestion =
   | { type: "calculator"; item: CalculatorItem }
+  | { type: "guide"; item: ProgrammaticSearchItem }
   | { type: "recent"; query: string }
   | { type: "popular"; item: CalculatorItem };
 
@@ -129,9 +131,38 @@ export function NavSearchDropdown({
                 );
               }
 
+              if (s.type === "guide") {
+                const item = s.item;
+                return (
+                  <button
+                    key={`${s.type}-${item.id}`}
+                    type="button"
+                    className={cn(
+                      "flex w-full items-start gap-3 rounded-xl px-3 py-3 text-left transition-colors",
+                      index === selectedIndex ? "bg-orange-50" : "hover:bg-orange-50"
+                    )}
+                    onClick={() => onSelect(s)}
+                  >
+                    <span className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white">
+                      <BookOpen className="h-4 w-4 text-orange-600" />
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-sm font-medium text-slate-900">
+                        {highlightMatch(item.name, query)}
+                      </span>
+                      <span className="block text-xs text-slate-600 truncate">
+                        {highlightMatch(item.description, query)}
+                      </span>
+                    </span>
+                    <span className="mt-0.5 inline-flex items-center rounded-full border border-orange-200 bg-orange-50 px-2 py-1 text-[11px] font-medium text-orange-700">
+                      Guide
+                    </span>
+                  </button>
+                );
+              }
+
               const item = s.item;
               const Icon = item.icon;
-
               return (
                 <button
                   key={`${s.type}-${item.id}`}
@@ -214,18 +245,29 @@ export function NavSearchBar({
     return searchCalculatorsRanked(debouncedQuery, 10);
   }, [debouncedQuery]);
 
+  const guideResults = useMemo(() => {
+    if (!debouncedQuery.trim()) return [];
+    return searchProgrammaticPagesRanked(debouncedQuery, 4);
+  }, [debouncedQuery]);
+
   const popular = useMemo(() => getFeaturedCalculators().slice(0, 4), []);
 
   const suggestions: Suggestion[] = useMemo(() => {
     const q = debouncedQuery.trim();
     if (q) {
-      return results.map((item: CalculatorItem) => ({ type: "calculator", item }));
+      const calculatorSuggestions: Suggestion[] = results
+        .slice(0, 8)
+        .map((item: CalculatorItem) => ({ type: "calculator", item }));
+      const guideSuggestions: Suggestion[] = guideResults
+        .slice(0, 4)
+        .map((item: ProgrammaticSearchItem) => ({ type: "guide", item }));
+      return [...calculatorSuggestions, ...guideSuggestions];
     }
 
     const recentSuggestions: Suggestion[] = recent.slice(0, MAX_RECENT).map((r) => ({ type: "recent", query: r }));
     const popularSuggestions: Suggestion[] = popular.map((item: CalculatorItem) => ({ type: "popular", item }));
     return [...recentSuggestions, ...popularSuggestions];
-  }, [debouncedQuery, popular, recent, results]);
+  }, [debouncedQuery, guideResults, popular, recent, results]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -262,6 +304,10 @@ export function NavSearchBar({
 
     addRecentSearch(query || s.item.name);
     setRecent(safeReadRecentSearches());
+    if (s.type === "guide") {
+      navigateTo(`/p/${s.item.slug}`);
+      return;
+    }
     navigateTo(`/${s.item.slug}`);
   };
 
