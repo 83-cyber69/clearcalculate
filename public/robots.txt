@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /icon
+Disallow: /apple-icon
+Sitemap: https://clearcalculate.com/sitemap.xml
