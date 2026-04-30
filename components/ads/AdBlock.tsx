@@ -17,6 +17,7 @@ declare global {
 }
 
 const initializedElements = new WeakSet<HTMLElement>();
+const CANONICAL_DOMAIN = "clearcalculate.com";
 
 function safePushAd(ins: HTMLElement) {
   if (typeof window === "undefined") return;
@@ -83,6 +84,11 @@ export function AdBlock({ slot, format = "auto", className }: AdBlockProps) {
   }, [client, isVisible, pathname, slot, format]);
 
   if (!client) return null;
+
+  // Only render on canonical domain (non-www)
+  if (typeof window !== "undefined" && window.location.hostname !== CANONICAL_DOMAIN) {
+    return null;
+  }
 
   return (
     <ins

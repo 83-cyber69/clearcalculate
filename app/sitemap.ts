@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 import { staticRoutes } from "@/lib/site-routes";
 import { getIndexableProgrammaticRoutes } from "@/lib/programmatic-pages";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://clearcalculate.com";
+// Force non-www canonical domain - strip www if present in env var
+const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://clearcalculate.com";
+const baseUrl = rawUrl.replace(/\/\/www\./, "//");
 export const dynamic = "force-static";
 
 function priorityForRoute(route: string) {
