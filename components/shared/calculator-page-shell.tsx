@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { AdSlot } from "@/components/ads/AdSlot";
+import { AdBlock } from "@/components/ads/AdBlock";
 import { EmailCaptureCard } from "@/components/monetization/EmailCaptureCard";
 
 type CalculatorPageShellProps = {
@@ -44,12 +44,11 @@ export function CalculatorPageShell({
           <div className="order-1 min-w-0 space-y-10 xl:order-2">
             <div id="calculator" className="space-y-6 scroll-mt-24">
               {calculator}
-              <AdSlot variant="calculator-bottom" />
+              <AdBlock slot="3854951303" className="mx-auto max-w-4xl" />
               <EmailCaptureCard />
             </div>
 
             <div className="space-y-10">
-              <AdSlot variant="in-content" />
               <div className="glass-card p-6 sm:p-8">
                 <h2 className="section-title">Recommended next steps</h2>
                 <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
@@ -73,13 +72,10 @@ export function CalculatorPageShell({
                 </div>
               </div>
               {seoContent}
-              <AdSlot variant="in-content" />
             </div>
           </div>
         </div>
       </section>
-
-      <AdSlot variant="sticky-mobile-footer" />
     </div>
   );
 }

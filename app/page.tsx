@@ -6,7 +6,7 @@ import { HeroGpaFocus } from "@/components/home/hero-gpa-focus";
 import { CategoryCard } from "@/components/shared/category-card";
 import { CalculatorCard } from "@/components/shared/calculator-card";
 import { FAQAccordion } from "@/components/shared/faq-accordion";
-import { AdSlot } from "@/components/ads/AdSlot";
+import { AdBlock } from "@/components/ads/AdBlock";
 import { calculatorItems, categoryItems, categoryRegistry } from "@/lib/calculators";
 import { siteConfig } from "@/lib/utils";
 
@@ -106,9 +106,6 @@ export default function HomePage() {
             <SmartSearch />
           </div>
 
-          <div className="mx-auto w-full max-w-4xl pt-2">
-            <AdSlot variant="top-banner" />
-          </div>
         </div>
       </section>
 
@@ -155,7 +152,7 @@ export default function HomePage() {
       </section>
 
       <section className="container-max py-8 sm:py-10">
-        <AdSlot variant="in-content" />
+        <AdBlock slot="7268506141" className="mx-auto max-w-4xl" />
       </section>
 
       <section id="about" className="container-max py-12 sm:py-14">

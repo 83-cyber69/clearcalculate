@@ -8,7 +8,7 @@ import { SmartSearch } from "@/components/search/smart-search";
 import { getCalculatorsByCategory, categoryRegistry } from "@/lib/calculators";
 import { siteConfig } from "@/lib/utils";
 import { createFaqJsonLd } from "@/lib/seo";
-import { AdSlot } from "@/components/ads/AdSlot";
+import { AdBlock } from "@/components/ads/AdBlock";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 
@@ -106,29 +106,21 @@ export default function HealthPage() {
 
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
         {healthCalculators.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch auto-rows-fr">
-            {healthCalculators.slice(0, 3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-            <AdSlot variant="in-content" />
-            {healthCalculators.slice(3).map((calculator) => (
-              <CalculatorCard
-                key={calculator.id}
-                title={calculator.name}
-                description={calculator.description}
-                href={`/${calculator.slug}`}
-                icon={calculator.icon}
-                ctaLabel="Calculate"
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch auto-rows-fr">
+              {healthCalculators.map((calculator) => (
+                <CalculatorCard
+                  key={calculator.id}
+                  title={calculator.name}
+                  description={calculator.description}
+                  href={`/${calculator.slug}`}
+                  icon={calculator.icon}
+                  ctaLabel="Calculate"
+                />
+              ))}
+            </div>
+            <AdBlock slot="5496259471" className="mx-auto max-w-4xl" />
+          </>
         ) : (
           <div className="text-center py-12">
             <Activity className="mx-auto h-12 w-12 text-slate-300 mb-4" />

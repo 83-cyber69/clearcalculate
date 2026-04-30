@@ -4,6 +4,7 @@ import Script from "next/script";
 import { CalculatorCard } from "@/components/shared/calculator-card";
 import { FAQAccordion } from "@/components/shared/faq-accordion";
 import { SmartSearch } from "@/components/search/smart-search";
+import { AdBlock } from "@/components/ads/AdBlock";
 import { calculatorRegistry, categoryRegistry } from "@/lib/calculators";
 import { createFaqJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/utils";
@@ -135,6 +136,7 @@ export default function CalculatorsHubPage() {
             />
           ))}
         </div>
+        <AdBlock slot="5496259471" className="mx-auto max-w-4xl" />
       </section>
 
       <section className="container-max py-14">
