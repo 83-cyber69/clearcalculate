@@ -61,14 +61,14 @@ export function GradeNeededToPassCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Grade Needed To Pass Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <InputField label="Current grade" type="number" min={0} max={100} value={currentGrade} onChange={onCurrent} unitRight="%" />
           <InputField label="Remaining weight" type="number" min={1} max={100} value={remainingWeight} onChange={onRemaining} unitRight="%" />
           <InputField label="Target grade" type="number" min={0} max={100} value={targetGrade} onChange={onTarget} unitRight="%" />
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Needed on Remaining Work" value={`${output.needed.toFixed(1)}%`} accent />
         <ResultCard label="Remaining Weight" value={`${output.remainingWeightPct.toFixed(0)}%`} />
       </div>

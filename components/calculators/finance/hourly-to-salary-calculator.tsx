@@ -64,14 +64,14 @@ export function HourlyToSalaryCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Hourly To Salary Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <InputField label="Hourly rate" type="number" min={0} value={hourlyRate} onChange={onRate} placeholder="e.g. 25" />
           <InputField label="Hours per week" type="number" min={0} value={hoursPerWeek} onChange={onHours} placeholder="e.g. 40" />
           <InputField label="Weeks per year" type="number" min={0} max={52} value={weeksPerYear} onChange={onWeeks} placeholder="e.g. 52" />
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Yearly Salary" value={formatCurrency(output.yearly)} accent />
         <ResultCard label="Estimated Monthly Salary" value={formatCurrency(output.monthly)} />
       </div>

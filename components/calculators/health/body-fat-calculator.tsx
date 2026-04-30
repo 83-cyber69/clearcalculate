@@ -100,7 +100,7 @@ export function BodyFatCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Body Fat Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="space-y-1">
             <label htmlFor="bf-sex" className="text-sm font-medium text-slate-700">
               Sex
@@ -146,7 +146,7 @@ export function BodyFatCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Body Fat" value={`${output.bf.toFixed(1)}%`} accent />
         <ResultCard label="Method" value="US Navy (measurement-based)" />
       </div>

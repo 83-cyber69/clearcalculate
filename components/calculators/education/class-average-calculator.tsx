@@ -61,7 +61,7 @@ export function ClassAverageCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Average" value={`${output.average.toFixed(1)}%`} accent />
         <ResultCard label="Scores Count" value={`${output.count}`} />
       </div>

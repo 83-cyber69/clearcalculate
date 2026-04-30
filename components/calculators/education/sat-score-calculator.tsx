@@ -37,7 +37,7 @@ export function SatScoreCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">SAT Score Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField label="Math section" type="number" min={200} max={800} value={math} onChange={onMath} />
           <InputField
             label="Reading & Writing section"
@@ -50,7 +50,7 @@ export function SatScoreCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Total" value={`${output.total}`} accent />
         <ResultCard label="Sections" value={`Math ${output.safeM} + R&W ${output.safeRW}`} />
       </div>

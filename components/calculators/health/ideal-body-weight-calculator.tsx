@@ -50,7 +50,7 @@ export function IdealBodyWeightCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Ideal Body Weight Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-1">
             <label htmlFor="ibw-sex" className="text-sm font-medium text-slate-700">
               Sex
@@ -69,7 +69,7 @@ export function IdealBodyWeightCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <ResultCard label="Estimated IBW" value={`${output.ibwKg.toFixed(1)} kg`} accent />
         <ResultCard label="Low Range" value={`${output.lowKg.toFixed(1)} kg`} />
         <ResultCard label="High Range" value={`${output.highKg.toFixed(1)} kg`} />

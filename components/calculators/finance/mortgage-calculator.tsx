@@ -71,7 +71,7 @@ export function MortgageCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Mortgage Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <InputField label="Home price" type="number" min={0} value={homePrice} onChange={onHP} />
           <InputField label="Down payment" type="number" min={0} value={downPayment} onChange={onDP} />
           <InputField label="Interest rate (APR)" type="number" min={0} step={0.01} value={rate} onChange={onR} unitRight="%" />
@@ -81,7 +81,7 @@ export function MortgageCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <ResultCard label="Total Monthly Payment" value={formatCurrency(output.total)} accent />
         <ResultCard label="Principal & Interest" value={formatCurrency(output.pAndI)} />
         <ResultCard label="Loan Amount" value={formatCurrency(output.loan)} />

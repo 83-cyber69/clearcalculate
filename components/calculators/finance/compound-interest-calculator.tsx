@@ -68,7 +68,7 @@ export function CompoundInterestCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Compound Interest Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <InputField label="Starting amount" type="number" min={0} value={starting} onChange={onS} />
           <InputField label="Monthly contribution" type="number" min={0} value={monthlyContribution} onChange={onC} />
           <InputField label="Annual return" type="number" min={0} step={0.1} value={annualReturn} onChange={onR} unitRight="%" />
@@ -76,7 +76,7 @@ export function CompoundInterestCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <ResultCard label="Future Value" value={formatCurrency(output.fv)} accent />
         <ResultCard label="Total Contributions" value={formatCurrency(output.contributions)} />
         <ResultCard label="Estimated Growth" value={formatCurrency(output.growth)} />

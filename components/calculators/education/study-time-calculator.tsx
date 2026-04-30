@@ -43,7 +43,7 @@ export function StudyTimeCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Study Time Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField label="Course load" type="number" min={0} value={credits} onChange={onCredits} unitRight="credits" />
           <InputField
             label="Study hours per credit (weekly)"
@@ -57,7 +57,7 @@ export function StudyTimeCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Study Time (weekly)" value={`${output.weeklyHours.toFixed(1)} hrs/week`} accent />
         <ResultCard label="Average Per Day" value={`${output.dailyHours.toFixed(1)} hrs/day`} />
       </div>

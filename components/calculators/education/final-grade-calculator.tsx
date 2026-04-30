@@ -57,7 +57,7 @@ export function FinalGradeCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Final Grade Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <InputField
             label="Current grade"
             type="number"
@@ -91,7 +91,7 @@ export function FinalGradeCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Final Grade" value={`${output.finalGrade.toFixed(1)}%`} accent />
         <ResultCard label="Exam Weight Used" value={`${Number(finalExamWeight || 0).toFixed(0)}%`} />
       </div>

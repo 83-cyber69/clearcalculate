@@ -68,14 +68,14 @@ export function LoanPaymentCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Loan Payment Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <InputField label="Loan amount" type="number" min={0} value={principal} onChange={onP} placeholder="e.g. 20000" />
           <InputField label="Interest rate (APR)" type="number" min={0} step={0.01} value={rate} onChange={onR} unitRight="%" placeholder="e.g. 7.5" />
           <InputField label="Term" type="number" min={1} value={termYears} onChange={onT} unitRight="years" placeholder="e.g. 5" />
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <ResultCard label="Monthly Payment" value={formatCurrency(output.payment)} accent />
         <ResultCard label="Total Interest" value={formatCurrency(output.interest)} />
         <ResultCard label="Total Paid" value={formatCurrency(output.totalPaid)} />

@@ -47,13 +47,13 @@ export function TestScorePercentageCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Test Score Percentage Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField label="Correct answers" type="number" min={0} value={correct} onChange={onCorrect} placeholder="e.g. 42" />
           <InputField label="Total questions" type="number" min={1} value={total} onChange={onTotal} placeholder="e.g. 50" />
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Score" value={`${output.pct.toFixed(1)}%`} accent />
         <ResultCard label="Incorrect" value={`${output.incorrect.toFixed(0)}`} />
       </div>

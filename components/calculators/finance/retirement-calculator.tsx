@@ -62,7 +62,7 @@ export function RetirementCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Retirement Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <InputField label="Current savings" type="number" min={0} value={currentSavings} onChange={onCS} />
           <InputField label="Monthly contribution" type="number" min={0} value={monthlyContribution} onChange={onMC} />
           <InputField label="Annual return" type="number" min={0} step={0.1} value={annualReturn} onChange={onR} unitRight="%" />
@@ -70,7 +70,7 @@ export function RetirementCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <ResultCard label="Projected Balance" value={formatCurrency(output.fv)} accent />
         <ResultCard label="Months Contributing" value={`${output.n}`} />
         <ResultCard label="4% Rule (monthly)" value={formatCurrency(monthlyIncomeRule)} />

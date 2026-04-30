@@ -60,7 +60,7 @@ export function SalaryAfterTaxesCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">Salary After Taxes Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField
             label="Gross salary"
             type="number"
@@ -82,7 +82,7 @@ export function SalaryAfterTaxesCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Net Salary" value={formatCurrency(output.net)} accent />
         <ResultCard label="Estimated Taxes" value={formatCurrency(output.taxes)} />
       </div>

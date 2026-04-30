@@ -48,7 +48,7 @@ export function ActScoreCalculator() {
         <CardHeader>
           <CardTitle className="text-xl">ACT Score Calculator</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField label="English" type="number" min={1} max={36} value={english} onChange={onEnglish} />
           <InputField label="Math" type="number" min={1} max={36} value={math} onChange={onMath} />
           <InputField label="Reading" type="number" min={1} max={36} value={reading} onChange={onReading} />
@@ -56,7 +56,7 @@ export function ActScoreCalculator() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ResultCard label="Estimated Composite" value={`${output.composite}`} accent />
         <ResultCard label="Average (before rounding)" value={output.avg.toFixed(2)} />
       </div>

@@ -18,7 +18,7 @@ export const ResultCard = memo(function ResultCard({ label, value, accent = fals
     >
       <CardContent className="py-5">
         <p className="text-xs uppercase tracking-wide text-slate-500">{label}</p>
-        <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{value}</p>
+        <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl text-safe">{value}</p>
       </CardContent>
     </Card>
   );
