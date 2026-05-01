@@ -8,13 +8,29 @@
 
 html,
 body {
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
-  max-width: 100vw;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Mobile-safe container utilities */
 .mobile-safe {
-  @apply w-full max-w-full;
+  @apply w-full max-w-full min-w-0 overflow-x-clip;
   box-sizing: border-box;
 }
 
@@ -27,7 +43,7 @@ body {
 
 /* Responsive table container */
 .table-container {
-  @apply w-full overflow-x-auto;
+  @apply w-full max-w-full overflow-x-auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -45,11 +61,11 @@ body {
 }
 
 .container-max {
-  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-7xl overflow-x-clip px-4 sm:px-6 lg:px-8;
 }
 
 .glass-card {
-  @apply rounded-2xl border border-slate-200/80 bg-white/95 shadow-soft transition-all duration-300;
+  @apply min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-soft transition-all duration-300;
 }
 
 .accent-warm {
@@ -57,11 +73,11 @@ body {
 }
 
 .section-title {
-  @apply text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl;
+  @apply max-w-full break-words text-[clamp(1.375rem,5vw,1.875rem)] font-semibold tracking-tight text-slate-900;
 }
 
 .section-lead {
-  @apply mt-3 max-w-2xl text-base leading-7 text-slate-600;
+  @apply mt-3 max-w-full break-words text-base leading-7 text-slate-600 sm:max-w-2xl;
 }
 
 .hero-calc-card {

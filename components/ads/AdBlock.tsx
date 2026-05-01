@@ -18,7 +18,8 @@ declare global {
 
 const initializedElements = new WeakSet<HTMLElement>();
 const CANONICAL_DOMAIN = "clearcalculate.com";
-const RESERVED_HEIGHT = 280;
+const MIN_AD_HEIGHT = 250;
+const MOBILE_AD_HEIGHT = 280;
 
 function safePushAd(ins: HTMLElement) {
   if (typeof window === "undefined") return;
@@ -96,14 +97,30 @@ export function AdBlock({ slot, format = "auto", className }: AdBlockProps) {
 
   return (
     <div
-      className={cn("mobile-safe my-8 w-full overflow-hidden rounded-xl border border-slate-200 bg-white", className)}
-      style={{ minHeight: RESERVED_HEIGHT }}
+      className={cn(
+        "mobile-safe my-8 block w-full max-w-full shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white",
+        "min-h-[280px] sm:min-h-[250px] lg:min-h-[320px]",
+        className
+      )}
+      style={{
+        display: "block",
+        width: "100%",
+        maxWidth: "100%",
+        minHeight: MOBILE_AD_HEIGHT,
+        overflow: "hidden",
+        flexShrink: 0
+      }}
     >
       {client ? (
         <ins
           ref={insRef}
-          className="adsbygoogle block h-full w-full"
-          style={{ display: "block", minHeight: RESERVED_HEIGHT }}
+          className="adsbygoogle block w-full max-w-full"
+          style={{
+            display: "block",
+            width: "100%",
+            maxWidth: "100%",
+            minHeight: `${MIN_AD_HEIGHT}px`
+          }}
           data-ad-client={client}
           data-ad-slot={slot}
           data-ad-format={format}

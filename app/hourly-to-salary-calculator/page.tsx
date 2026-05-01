@@ -151,8 +151,8 @@ export default function Page() {
 
             <article className="glass-card p-6 sm:p-8">
               <h2 className="section-title">Comparison table</h2>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+              <div className="mt-4 w-full max-w-full overflow-x-auto">
+                <table className="w-full table-auto border-collapse text-left text-sm text-slate-700">
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th className="py-2 pr-4 font-semibold text-slate-900">Schedule</th>

@@ -151,10 +151,10 @@ export default function EducationPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-          <div className="space-y-8">
-            <article className="glass-card p-6 sm:p-8">
+      <section className="mx-auto w-full max-w-7xl overflow-x-clip px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="min-w-0 max-w-full space-y-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">How to use these education calculators</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 The fastest way to use this section is to start with the calculator that matches the decision you’re trying to make, then work backward
@@ -198,7 +198,7 @@ export default function EducationPage() {
               </div>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">GPA formula (the idea behind most GPA systems)</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 GPA is a credit-weighted average of grade points. If your school uses A=4.0, B=3.0, etc., the general model looks like this:
@@ -214,7 +214,7 @@ export default function EducationPage() {
               </p>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Worked example: planning a final</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 Suppose you have an 88% in a class and the final exam is worth 30% of your grade. You want to finish with at least a 90%.
@@ -239,7 +239,7 @@ export default function EducationPage() {
               </p>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Common mistakes (and how to avoid them)</h2>
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
                 <li>Using the wrong grade scale (especially for +/- grading or non-4.0 systems).</li>
@@ -249,10 +249,10 @@ export default function EducationPage() {
               </ul>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Which calculator should you use?</h2>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+              <div className="mt-4 w-full max-w-full overflow-x-auto">
+                <table className="w-full table-auto border-collapse text-left text-sm text-slate-700">
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th className="py-2 pr-4 font-semibold text-slate-900">Goal</th>
@@ -309,7 +309,7 @@ export default function EducationPage() {
             </article>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="min-w-0 max-w-full space-y-6">
             <div className="glass-card p-6">
               <h2 className="text-base font-semibold text-slate-900">Start here</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -329,9 +329,9 @@ export default function EducationPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="glass-card accent-warm p-8 sm:p-10">
+        <div className="glass-card accent-warm p-6 sm:p-10">
           <h2 className="section-title">Why Students Choose ClearCalculate</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
               <h3 className="font-semibold text-slate-900 mb-2">Instant Results</h3>
               <p className="text-sm text-slate-600">Get your GPA calculations immediately without complex spreadsheets or manual math.</p>
@@ -359,20 +359,20 @@ export default function EducationPage() {
                 <Link
                   key={category.slug}
                   href={`/${category.slug}`}
-                  className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 transition-all hover:border-orange-200 hover:shadow-md"
+                  className="group flex w-full min-w-0 max-w-full flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-orange-200 hover:shadow-md sm:flex-row sm:items-center sm:justify-between sm:p-6"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg border border-slate-200 bg-white p-2">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="shrink-0 rounded-lg border border-slate-200 bg-white p-2">
                       <Icon className="h-5 w-5 text-orange-600" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-semibold text-slate-900 group-hover:text-orange-600">
                         {category.title} Calculators
                       </h3>
-                      <p className="text-sm text-slate-600">{category.description}</p>
+                      <p className="break-words text-sm text-slate-600">{category.description}</p>
                     </div>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-slate-400 transition-colors group-hover:text-orange-600" />
+                  <ArrowRight className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-orange-600" />
                 </Link>
               );
             })}

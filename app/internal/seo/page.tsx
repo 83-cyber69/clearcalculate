@@ -61,8 +61,8 @@ export default async function SeoDashboardPage() {
       <section className="mt-8 grid gap-6">
         <div className="glass-card p-6 sm:p-8">
           <h2 className="section-title">Top clusters</h2>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[760px] text-left text-sm">
+          <div className="mt-4 w-full max-w-full overflow-x-auto">
+            <table className="w-full table-auto text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-600">
                   <th className="py-3 pr-4">Keyword</th>

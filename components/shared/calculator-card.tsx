@@ -20,7 +20,7 @@ export function CalculatorCard({
   ctaLabel = "Open calculator"
 }: CalculatorCardProps) {
   return (
-    <Card className="group h-full transition-all duration-300 hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_20px_48px_rgba(15,23,42,0.15)]">
+    <Card className="group h-full w-full min-w-0 transition-all duration-300 hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_20px_48px_rgba(15,23,42,0.15)]">
       <CardHeader>
         {Icon ? (
           <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-orange-200 bg-orange-50 text-orange-600 transition-all group-hover:border-orange-300 group-hover:bg-orange-100">
@@ -31,9 +31,9 @@ export function CalculatorCard({
       </CardHeader>
       <CardContent>
         <p className="mb-6 text-sm leading-6 text-slate-600 break-words">{description}</p>
-        <Link href={href}>
-          <Button variant="outline" className="inline-flex items-center gap-2 transition-colors group-hover:bg-orange-50 group-hover:border-orange-200 group-hover:text-orange-600">
-            {ctaLabel} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        <Link href={href} className="block max-w-full">
+          <Button variant="outline" className="inline-flex max-w-full items-center gap-2 transition-colors group-hover:bg-orange-50 group-hover:border-orange-200 group-hover:text-orange-600">
+            <span className="min-w-0 break-words">{ctaLabel}</span> <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
           </Button>
         </Link>
       </CardContent>

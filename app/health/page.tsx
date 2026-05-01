@@ -149,10 +149,10 @@ export default function HealthPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-          <div className="space-y-8">
-            <article className="glass-card p-6 sm:p-8">
+      <section className="mx-auto w-full max-w-7xl overflow-x-clip px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="min-w-0 max-w-full space-y-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">How to use these health calculators</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 Most health and fitness planning is easier when you start with energy balance. Get a reasonable estimate of maintenance calories, then
@@ -192,7 +192,7 @@ export default function HealthPage() {
               </div>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">The core idea: maintenance + adjustment</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 Maintenance calories are the level where your weight tends to stay stable over time. A cut or bulk is simply an adjustment above or below
@@ -211,9 +211,9 @@ export default function HealthPage() {
               </p>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Common mistakes (and how to avoid them)</h2>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+              <ul className="mt-4 max-w-full list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700 sm:text-base">
                 <li>Choosing an activity level that overestimates your average movement.</li>
                 <li>Going too aggressive on deficit and burning out after 1–2 weeks.</li>
                 <li>Judging progress by day-to-day scale weight rather than weekly averages.</li>
@@ -221,10 +221,10 @@ export default function HealthPage() {
               </ul>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Which calculator should you use?</h2>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+              <div className="mt-4 w-full max-w-full overflow-x-auto">
+                <table className="w-full table-auto border-collapse text-left text-sm text-slate-700">
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th className="py-2 pr-4 font-semibold text-slate-900">Goal</th>
@@ -275,7 +275,7 @@ export default function HealthPage() {
             </article>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="min-w-0 max-w-full space-y-6">
             <div className="glass-card p-6">
               <h2 className="text-base font-semibold text-slate-900">Quick start</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -295,9 +295,9 @@ export default function HealthPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="glass-card accent-warm p-8 sm:p-10">
+        <div className="glass-card accent-warm p-6 sm:p-10">
           <h2 className="section-title">Why Trust Our Health Tools</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
               <h3 className="font-semibold text-slate-900 mb-2">Science-Based</h3>
               <p className="text-sm text-slate-600">Our calculators use proven scientific formulas and methods trusted by health professionals.</p>
@@ -325,20 +325,20 @@ export default function HealthPage() {
                 <Link
                   key={category.slug}
                   href={`/${category.slug}`}
-                  className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 transition-all hover:border-orange-200 hover:shadow-md"
+                  className="group flex w-full min-w-0 max-w-full flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-orange-200 hover:shadow-md sm:flex-row sm:items-center sm:justify-between sm:p-6"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg border border-slate-200 bg-white p-2">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="shrink-0 rounded-lg border border-slate-200 bg-white p-2">
                       <Icon className="h-5 w-5 text-orange-600" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-semibold text-slate-900 group-hover:text-orange-600">
                         {category.title} Calculators
                       </h3>
-                      <p className="text-sm text-slate-600">{category.description}</p>
+                      <p className="break-words text-sm text-slate-600">{category.description}</p>
                     </div>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-slate-400 transition-colors group-hover:text-orange-600" />
+                  <ArrowRight className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-orange-600" />
                 </Link>
               );
             })}

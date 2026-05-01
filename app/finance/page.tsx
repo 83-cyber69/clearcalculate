@@ -149,16 +149,16 @@ export default function FinancePage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-          <div className="space-y-8">
-            <article className="glass-card p-6 sm:p-8">
+      <section className="mx-auto w-full max-w-7xl overflow-x-clip px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="min-w-0 max-w-full space-y-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">How to use these finance calculators</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 Finance decisions usually boil down to two questions: what does this cost me each month, and what does it cost me over time? The tools in
                 this category help you answer both quickly so you can compare options without a spreadsheet.
               </p>
-              <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+              <div className="mt-4 max-w-full space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
                 <p>
                   Common workflows:
                 </p>
@@ -203,7 +203,7 @@ export default function FinancePage() {
               </div>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Key formulas (simple versions)</h2>
               <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
                 You don’t need to memorize formulas to use the calculators, but it helps to know what the outputs represent:
@@ -228,9 +228,9 @@ export default function FinancePage() {
               </div>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Common mistakes (and what to do instead)</h2>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+              <ul className="mt-4 max-w-full list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700 sm:text-base">
                 <li>Comparing options by monthly payment only (also compare total interest / total paid).</li>
                 <li>Assuming every dollar of salary is equally taxed (marginal vs effective rate confusion).</li>
                 <li>Using an optimistic return rate in long-term projections without stress-testing a lower rate.</li>
@@ -238,10 +238,10 @@ export default function FinancePage() {
               </ul>
             </article>
 
-            <article className="glass-card p-6 sm:p-8">
+            <article className="glass-card max-w-none p-6 text-safe sm:p-8">
               <h2 className="section-title">Which calculator should you use?</h2>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[720px] border-collapse text-left text-sm text-slate-700">
+              <div className="mt-4 w-full max-w-full overflow-x-auto">
+                <table className="w-full table-auto border-collapse text-left text-sm text-slate-700">
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th className="py-2 pr-4 font-semibold text-slate-900">Question</th>
@@ -292,17 +292,17 @@ export default function FinancePage() {
             </article>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="min-w-0 max-w-full space-y-6">
             <div className="glass-card p-6">
               <h2 className="text-base font-semibold text-slate-900">Quick start</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 For most people, the fastest win is understanding take-home pay and comparing total loan cost (not just the monthly payment).
               </p>
               <div className="mt-4 space-y-2">
-                <Link href="/take-home-pay-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                <Link href="/take-home-pay-calculator" className="block max-w-full break-words rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
                   Open Take Home Pay
                 </Link>
-                <Link href="/loan-payment-calculator" className="block rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
+                <Link href="/loan-payment-calculator" className="block max-w-full break-words rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:border-orange-200 hover:text-orange-700">
                   Open Loan Payment
                 </Link>
               </div>
@@ -312,9 +312,9 @@ export default function FinancePage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="glass-card accent-warm p-8 sm:p-10">
+        <div className="glass-card accent-warm p-6 sm:p-10">
           <h2 className="section-title">Why Choose Our Finance Tools</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
               <h3 className="font-semibold text-slate-900 mb-2">Up-to-Date Calculations</h3>
               <p className="text-sm text-slate-600">Our calculators use current tax tables and financial formulas for accurate estimates.</p>
@@ -342,20 +342,20 @@ export default function FinancePage() {
                 <Link
                   key={category.slug}
                   href={`/${category.slug}`}
-                  className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 transition-all hover:border-orange-200 hover:shadow-md"
+                  className="group flex w-full min-w-0 max-w-full flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-orange-200 hover:shadow-md sm:flex-row sm:items-center sm:justify-between sm:p-6"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg border border-slate-200 bg-white p-2">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="shrink-0 rounded-lg border border-slate-200 bg-white p-2">
                       <Icon className="h-5 w-5 text-orange-600" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-semibold text-slate-900 group-hover:text-orange-600">
                         {category.title} Calculators
                       </h3>
-                      <p className="text-sm text-slate-600">{category.description}</p>
+                      <p className="break-words text-sm text-slate-600">{category.description}</p>
                     </div>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-slate-400 transition-colors group-hover:text-orange-600" />
+                  <ArrowRight className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-orange-600" />
                 </Link>
               );
             })}
